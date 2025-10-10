@@ -41,6 +41,32 @@
     <!-- Theme js-->
     <script src="{{asset('backend/assets/js/script.js')}}"></script>
     {{-- <script src="{{asset('backend/assets/js/theme-customizer/customizer.js')}}"></script> --}}
-    <!-- Plugin used-->
+    <script src="{{asset('backend/assets/js/datatable/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('backend/assets/js/datatable/datatables/datatable.custom.js')}}"></script>
+
+
+    {{-- CDN --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+    <!-- Custom js used-->
+    <script src="{{asset('backend/assets/js/custom/common.js')}}"></script>
+    <script>
+      // if in active till 15 second the screen lock
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+      }
+
+      const lockStatus = getCookie('lockscreen_status');
+      console.log("Lock status:", lockStatus); // Should now show "active"
+
+      if(lockStatus != null){
+      myalert();
+      }
+        // if in active till 15 second the screen lock end
+    </script>
+    @yield('extra-js')
+   
   </body>
 </html>

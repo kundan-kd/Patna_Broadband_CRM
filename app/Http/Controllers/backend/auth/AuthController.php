@@ -17,7 +17,11 @@ use Illuminate\Support\Str;
 class AuthController extends Controller
 {
    public function index(){
-        return view('backend.auth.login');
+      if(Auth::check()){
+         return view('backend.admin.modules.dashboard');
+      }else{
+         return view('backend.auth.login');
+      }
    }
 
    public function authenticate(Request $request){
