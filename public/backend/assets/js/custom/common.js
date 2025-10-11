@@ -1,22 +1,27 @@
+
 let idleTime = 0;
 // const idleLimit = 10 * 60 * 1000; // 10 minutes
 const idleLimit = 10 * 1000; // 10 seconds
-
-
 function resetIdleTimer() {
-    clearTimeout(window.idleTimer);
-    window.idleTimer = setTimeout(() => {
-        // window.location.href = "/lock-screen-status"; // Redirect to lock screen
-        myalert();
-    }, idleLimit);
+   let lockSession = sessionStorage.getItem("lockTriggered"); // Move inside
+    if (lockSession === "active" || lockSession != null) {
+        return; // Do not reset timer if lock is active
+    } else {
+        clearTimeout(window.idleTimer);
+        window.idleTimer = setTimeout(() => {
+            myalert();
+            sessionStorage.setItem("lockTriggered", "active");
+        }, idleLimit);
+    }
+
 }
 
 // Reset timer on user activity
 ['mousemove', 'keydown', 'scroll', 'click'].forEach(evt => {
     document.addEventListener(evt, resetIdleTimer, false);
 });
+    resetIdleTimer(); // Start timer on page load
 
-resetIdleTimer(); // Start timer on page load
 
 
 
@@ -39,11 +44,11 @@ function myalert() {
 
     // Show confirmation (unlock) popup
     $.confirm({
-        title: '🔐 Screen Lock',
+        title: '🔐 Screen Locked',
         content:
             '<form action="" class="formName">' +
             '<div class="form-group">' +
-            '<input type="password" placeholder="Your lock password" class="password form-control" required />' +
+            '<input type="password" placeholder="Enter your lock password" class="password form-control" required />' +
             '</div>' +
             '</form>',
         theme: 'supervan',
@@ -68,8 +73,9 @@ function myalert() {
                             _token: $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function (response) {
-                            console.log('Lock status updated on server:', response);
+                            // console.log('Lock status updated on server:', response);
                             if (response.status === true) {
+                                sessionStorage.removeItem("lockTriggered"); // session removed
                                 modal.close(); // ✅ close the modal
                             } else {
                                 $.alert(response.message || 'Incorrect password');
