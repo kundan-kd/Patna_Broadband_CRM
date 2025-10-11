@@ -3,14 +3,16 @@ let idleTime = 0;
 // const idleLimit = 10 * 60 * 1000; // 10 minutes
 const idleLimit = 10 * 1000; // 10 seconds
 function resetIdleTimer() {
-   let lockSession = sessionStorage.getItem("lockTriggered"); // Move inside
+   let lockSession = localStorage.getItem("lockTriggered"); // Move inside
+   console.log("Lock Session Status:", lockSession); // Debugging line
     if (lockSession === "active" || lockSession != null) {
         return; // Do not reset timer if lock is active
     } else {
         clearTimeout(window.idleTimer);
         window.idleTimer = setTimeout(() => {
             myalert();
-            sessionStorage.setItem("lockTriggered", "active");
+            localStorage.setItem("lockTriggered", "active");
+            console.log("Lock Triggered due to inactivity");
         }, idleLimit);
     }
 
@@ -75,7 +77,10 @@ function myalert() {
                         success: function (response) {
                             // console.log('Lock status updated on server:', response);
                             if (response.status === true) {
-                                sessionStorage.removeItem("lockTriggered"); // session removed
+                                localStorage.removeItem("lockTriggered"); // session removed
+                                   let lockSession2 = localStorage.getItem("lockTriggered"); // Move inside
+                                      console.log("Lock Session Status After Unlock:", lockSession2); // Debugging line
+
                                 modal.close(); // ✅ close the modal
                             } else {
                                 $.alert(response.message || 'Incorrect password');
