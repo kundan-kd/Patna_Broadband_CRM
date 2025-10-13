@@ -18,15 +18,14 @@ Route::get('/tokenInvalid', [AuthController::class, 'tokenError'])->name('auth.t
 
 
 
-Route::post('/lock-screen-status',[LockscreenController::class,'lockStatus'])->name('lockscreen-status');
-Route::get('/lock-screen-value',[LockscreenController::class,'checkLock'])->name('lockscreen-value');
-Route::post('/lock-screen-check',[LockscreenController::class,'checkLockpass'])->name('lockscreen-check');
-// Route::get('/lock-screen', function () {return view('backend.home.lockscreen');})->name('lockscreen');
-Route::post('/unlock', [LockscreenController::class, 'unlock'])->name('unlock');
 
-Route::middleware(['prevent-back'])->group(function(){
+
+Route::middleware(['prevent-back', 'prevent-back-history'])->group(function(){
     Route::get('/dashboard',[AuthController::class,'dashboard'])->name('admin.dashboard');
-
+    Route::post('/lock-screen-status',[LockscreenController::class,'lockStatus'])->name('lockscreen-status');
+    Route::get('/lock-screen-value',[LockscreenController::class,'checkLock'])->name('lockscreen-value');
+    Route::post('/lock-screen-check',[LockscreenController::class,'checkLockpass'])->name('lockscreen-check');
+    Route::post('/unlock', [LockscreenController::class, 'unlock'])->name('unlock');
 
     Route::get('/admin-users',[UserController::class,'users'])->name('admin-master-users');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

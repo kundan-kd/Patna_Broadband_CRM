@@ -9,6 +9,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
@@ -28,7 +29,7 @@ class AuthController extends Controller
       $auth = Auth::attempt([
          'email' => strtolower($request->email),
          'password' => $request->password
-      ],true);
+      ]);
       if ($auth) {
          $response = response()->json(['success' => true, 'user_id' => auth()->user()->id, 'user_name' => auth()->user()->name], 200);
       } else {

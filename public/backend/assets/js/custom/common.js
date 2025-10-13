@@ -1,18 +1,17 @@
 
+
 let idleTime = 0;
 // const idleLimit = 10 * 60 * 1000; // 10 minutes
 const idleLimit = 10 * 1000; // 10 seconds
 function resetIdleTimer() {
    let lockSession = localStorage.getItem("lockTriggered"); // Move inside
-   console.log("Lock Session Status:", lockSession); // Debugging line
-    if (lockSession === "active" || lockSession != null) {
+    if (lockSession == "active" || lockSession != null) {
         return; // Do not reset timer if lock is active
     } else {
         clearTimeout(window.idleTimer);
         window.idleTimer = setTimeout(() => {
             myalert();
             localStorage.setItem("lockTriggered", "active");
-            console.log("Lock Triggered due to inactivity");
         }, idleLimit);
     }
 
@@ -35,12 +34,6 @@ function myalert() {
         method: 'POST',
         data: {
             _token: $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function (response) {
-            // console.log('Lock status updated on server:', response);
-        },
-        error: function () {
-            // console.error('Failed to update lock status on server.');
         }
     });
 
@@ -65,7 +58,7 @@ function myalert() {
                         return false;
                     }
 
-                    var modal = this; // ✅ capture modal reference
+                    var modal = this;
 
                     $.ajax({
                         url: '/lock-screen-check',
@@ -75,13 +68,10 @@ function myalert() {
                             _token: $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function (response) {
-                            // console.log('Lock status updated on server:', response);
                             if (response.status === true) {
-                                localStorage.removeItem("lockTriggered"); // session removed
-                                   let lockSession2 = localStorage.getItem("lockTriggered"); // Move inside
-                                      console.log("Lock Session Status After Unlock:", lockSession2); // Debugging line
-
-                                modal.close(); // ✅ close the modal
+                                localStorage.removeItem("lockTriggered");
+                                resetIdleTimer();
+                                modal.close();
                             } else {
                                 $.alert(response.message || 'Incorrect password');
                             }
@@ -91,9 +81,30 @@ function myalert() {
                         }
                     });
 
-                    return false; // keep modal open until AJAX completes
-                }
+                    return false;
+                },
+                isDisabled: true // 🔒 Disable button initially
             }
+        },
+        onContentReady: function () {
+            var modal = this;
+            var input = this.$content.find('.password');
+
+            input.on('input', function () {
+                if ($(this).val().length >= 4) {
+                    modal.buttons.submit.enable(); // ✅ Enable Unlock button
+                } else {
+                    modal.buttons.submit.disable(); // 🔒 Disable Unlock button
+                }
+            });
+
+            // 🔑 Trigger Unlock on Enter key if button is enabled
+            input.on('keydown', function (e) {
+                if ((e.key === 'Enter' || e.keyCode === 13) && !modal.buttons.submit.isDisabled) {
+                    modal.buttons.submit.action.call(modal);
+                    e.preventDefault();
+                }
+            });
         }
     });
 }

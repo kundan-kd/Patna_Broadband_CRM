@@ -28,7 +28,6 @@ class LockscreenController extends Controller
             'success' => 'lock success',
             'status' => 'active' // hardcoded since it's just been queued
         ], 200);
-
     }
     public function checkLock(Request $request)
     {

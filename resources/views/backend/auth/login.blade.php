@@ -228,6 +228,7 @@
                             $('.spinn_btn').hide();
                             $('.submit_btn').show();
                             if (response.success) {
+                                localStorage.removeItem("lockTriggered"); // session removed
                                 window.location.href = "{{ route('admin.dashboard') }}";
                             } else if (response.errors_validation) {
                                 $('.credentialError_msg').html(data.errors_validation).css("color","#dc3545").removeClass('d-none');
