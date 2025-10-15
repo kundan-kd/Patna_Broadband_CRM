@@ -46,8 +46,13 @@
 
     {{-- CDN --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
+
+
+
     {{-- Custom CSS used --}}
     <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/css/custom/common.css')}}">
+
+
   </head>
   <body>
     <!-- loader starts  -->
@@ -63,6 +68,8 @@
       </div>
     </div>
     <!-- loader ends-->
+       {{-- toast alert included --}}
+    @include('backend.admin.alert.toast')
     <!-- tap on top starts-->
     <div class="tap-top"><i data-feather="chevrons-up"></i></div>
     <!-- tap on tap ends-->
@@ -72,7 +79,15 @@
       <div class="page-header">
         <div class="header-wrapper row m-0">
           <div class="header-logo-wrapper col-auto p-0">
-            <div class="logo-wrapper"><a href="index.html"><img class="img-fluid" src="../assets/images/logo/logo-w.png" alt=""></a></div>
+            <div class="logo-wrapper">
+              <a href="index.html">
+                <!-- Light mode logo -->
+                <img class="img-fluid for-light mb-3" src="{{ asset('backend/assets/images/logo/logo.svg') }}" alt="loginpage" style="height: 27px; width: 150px;">
+                
+                <!-- Dark mode logo -->
+                <img class="img-fluid for-dark mb-3 mx-auto" src="{{ asset('backend/assets/images/logo/logo.svg') }}" alt="loginpage" style="height: 27px; width: 150px;">
+              </a>
+            </div>
             <div class="toggle-sidebar"><i data-feather="align-center"></i>
               <div class="status_toggle middle sidebar-toggle">
                 <div class="header-left">
@@ -332,6 +347,7 @@
               </div>
               <ul class="sidebar-body-mainmenu custom-scrollbar"> 
                 <li><a href="{{route('admin-master-users')}}">Users</a></li>
+                <li><a href="{{route('admin-master-taskSetting')}}">Task Setting</a></li>
               </ul>
             </li>
             <li>

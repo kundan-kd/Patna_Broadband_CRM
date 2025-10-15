@@ -1,8 +1,6 @@
-
-
 let idleTime = 0;
 // const idleLimit = 10 * 60 * 1000; // 10 minutes
-const idleLimit = 10 * 1000; // 10 seconds
+const idleLimit = 300 * 1000; // 600 seconds
 function resetIdleTimer() {
    let lockSession = localStorage.getItem("lockTriggered"); // Move inside
     if (lockSession == "active" || lockSession != null) {
@@ -43,7 +41,7 @@ function myalert() {
         content:
             '<form action="" class="formName">' +
             '<div class="form-group">' +
-            '<input type="password" placeholder="Enter your lock password" class="password form-control" required />' +
+            '<input type="password" placeholder="Enter your lock PIN" class="password form-control" required />' +
             '</div>' +
             '</form>',
         theme: 'supervan',
@@ -54,7 +52,7 @@ function myalert() {
                 action: function () {
                     var password = this.$content.find('.password').val();
                     if (!password) {
-                        $.alert('Please enter your password');
+                        $.alert('Please enter your lock PIN');
                         return false;
                     }
 
@@ -73,7 +71,7 @@ function myalert() {
                                 resetIdleTimer();
                                 modal.close();
                             } else {
-                                $.alert(response.message || 'Incorrect password');
+                                $.alert(response.message || 'Incorrect lock PIN');
                             }
                         },
                         error: function () {
@@ -108,3 +106,59 @@ function myalert() {
         }
     });
 }
+
+// Bootstrap Validation codes start
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+// Bootstrap Validation codes ends
+
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
+// toast success alert start---------
+function toastSuccessAlert(message){
+  $('.toast-alert-success-msg').html('');
+  $('.toast-alert-success-msg').html(message);
+  var toastElement = document.getElementById('liveToastSuccessAlert');
+  var toast = new bootstrap.Toast(toastElement);
+  toast.show();
+}
+// toast alert ends---------
+// toast warning alert start---------
+function toastWarningAlert(message){
+  $('.toast-alert-warning-msg').html('');
+  $('.toast-alert-warning-msg').html(message);
+  var toastElement = document.getElementById('liveToastWarningAlert');
+  var toast = new bootstrap.Toast(toastElement);
+  toast.show();
+}
+// toast alert ends---------
+// toast failed alert start---------
+function toastErrorAlert(message){
+  $('.toast-alert-error-msg').html('');
+  $('.toast-alert-error-msg').html(message);
+  var toastElement = document.getElementById('liveToastErrorAlert');
+  var toast = new bootstrap.Toast(toastElement);
+  toast.show();
+}
+// toast alert ends---------

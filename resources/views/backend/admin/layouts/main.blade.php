@@ -1,3 +1,3 @@
-@include('backend.admin.layouts.header');
+@include('backend.admin.layouts.header')
 @yield('main-container')
-@include('backend.admin.layouts.footer');
+@include('backend.admin.layouts.footer')

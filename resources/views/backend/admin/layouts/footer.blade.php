@@ -20,7 +20,8 @@
     <!-- latest jquery-->
     <script src="{{asset('backend/assets/js/jquery.min.js')}}"></script>
     <!-- Bootstrap js-->
-    <script src="{{asset('backend/assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
+    {{-- <script src="{{asset('backend/assets/js/bootstrap/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('backend/assets/js/bootstrap/bootstrap.min.js')}}"></script> --}}
     <!-- feather icon js-->
     <script src="{{asset('backend/assets/js/icons/feather-icon/feather.min.js')}}"></script>
     <script src="{{asset('backend/assets/js/icons/feather-icon/feather-icon.js')}}"></script>
@@ -47,6 +48,12 @@
 
     {{-- CDN --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+
+    <!-- Bootstrap JS Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+
+
     <!-- Custom js used-->
     <script src="{{asset('backend/assets/js/custom/common.js')}}"></script>
     <script>

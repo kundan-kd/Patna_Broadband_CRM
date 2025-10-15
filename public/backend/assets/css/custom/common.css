@@ -4,3 +4,38 @@
     justify-content: flex-start !important;
     /* z-index: 999; */
 }
+.needs-validation .invalid-feedback {
+    color: #dc3545 !important;
+}
+
+.was-validated .form-control:valid, .form-control.is-valid {
+    padding-right: calc(0.5em); 
+}
+/*setting switch design update*/
+.icon-state .switch-state:after {
+    content: "\efb8";
+    font-family: IcoFont;
+    left: 10px;
+    position: absolute;
+    top: 6px;
+}
+
+.switch {
+     height: 26px;
+}
+.icon-state input:checked + .switch-state:after {
+    content: "\efad";
+    left: 34px;
+}
+.switch-state:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 5px;
+}
+
+.switch-outline .switch input:checked + .switch-state:before {
+      bottom: 2px;
+}
+/*setting switch design update end*/

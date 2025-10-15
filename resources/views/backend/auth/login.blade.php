@@ -51,7 +51,7 @@
             color:#0f5132;
         }
         .magic_btn:hover, .submit_btn:hover{
-            background-color:#005f3396 !important;
+            background-color:#ff505096 !important;
         }
         .magic_btn{
             border:none;
@@ -150,6 +150,9 @@
                                                 aria-hidden="true"></span>
                                             <span role="status">Please wait...</span>
                                         </button>
+                                        <br>
+                                        <button class="btn btn-light m-t-10 w-100 magic_btn_link"
+                                                onclick="password_link()" type="button">Log in with password</button>
                                     </div>
 
                                 </div>
@@ -246,6 +249,10 @@
             function email_link(){
                 document.getElementById("form_login").style.display="none";
                 document.getElementById("form_magiclink").style.display="block";
+            }
+            function password_link(){
+                document.getElementById("form_login").style.display="block";
+                document.getElementById("form_magiclink").style.display="none";
             }
 
             $("#form_magiclink").on("submit", function(event) {
