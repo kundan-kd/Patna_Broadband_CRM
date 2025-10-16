@@ -76,6 +76,8 @@ $('#taskPriority_form').on('submit',function(e){
                     toastErrorAlert(response.error_success);
                 }else if(response.error_validation){
                     toastErrorAlert(response.error_validation);
+                }else if(response.already_found){
+                    toastErrorAlert(response.already_found);
                 }else{
                     toastErrorAlert('something went wrong!');
                 }
@@ -184,6 +186,8 @@ function taskPriorityUpdate(id){
                      toastSuccessAlert(response.success);
                 }else if(response.error_success){
                     toastErrorAlert(response.error_success);
+                }else if(response.already_found){
+                    toastErrorAlert(response.already_found);
                 }else{
                     toastErrorAlert('something went wrong!');
                 }

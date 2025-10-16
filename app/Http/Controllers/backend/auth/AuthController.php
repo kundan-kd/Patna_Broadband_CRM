@@ -8,6 +8,7 @@ use App\Models\EmailOtp;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +37,7 @@ class AuthController extends Controller
          $response = response()->json(['error_success' => 'credentials do not matched !'], 200);
       }
       return $response;
-    }
+   }
     
    public function magiclink(Request $request){
       if ($request->ajax()) {
@@ -200,9 +201,16 @@ class AuthController extends Controller
    }
    
    public function logout(Request $request){
-   Auth::guard('web')->logout();
-   $request->session()->invalidate();
-   $request->session()->regenerateToken();
-   return redirect("/");
+      Auth::guard('web')->logout();
+      $request->session()->invalidate();
+      $request->session()->regenerateToken();
+      return redirect("/");
+   }
+   public function clearCache(){
+      Artisan::call('view:clear');
+      Artisan::call('route:clear');
+      Artisan::call('cache:clear');
+      Artisan::call('config:clear');
+      return response()->json(['success' => 'Cache cleared successfully.']);
    }
 }

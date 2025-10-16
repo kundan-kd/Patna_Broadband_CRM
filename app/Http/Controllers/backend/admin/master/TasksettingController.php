@@ -52,15 +52,20 @@ class TasksettingController extends Controller
         if($validator->fails()){
             return response()->json(['error_validation'=> $validator->errors()->all(),],422);
         }
-
-        $TaskLabel = new TaskLabel();
-        $TaskLabel->name = $request->name;
-        $TaskLabel->color = $request->color;
-        if($TaskLabel->save()){
-            return response()->json(['success' => 'Task Label addedd successfully'],200);
+        $exists = TaskLabel::where('name',$request->name)->exists();
+        if(!$exists){
+            $TaskLabel = new TaskLabel();
+            $TaskLabel->name = $request->name;
+            $TaskLabel->color = $request->color;
+            if($TaskLabel->save()){
+                return response()->json(['success' => 'Task Label addedd successfully'],200);
+            }else{
+                return response()->json(['error_success' => 'Task Label not added']);
+            }
         }else{
-            return response()->json(['error_success' => 'Task Label not added']);
+           return response()->json(['already_found' => 'This Task label already exists.']);
         }
+        
     }
 
     public function taskLabelPositionUpdate(Request $request){
@@ -103,15 +108,21 @@ class TasksettingController extends Controller
     }
 
     public function update(Request $request){
-        $update = TaskLabel::where('id',$request->id)->update([
-            'name' => $request->name,
-            'color' => $request->color
-        ]);
-        if($update){
-            return response()->json(['success' => 'Task Label updated successfully'],200);
+        $exists = TaskLabel::where('name',$request->name)->where('id','!=',$request->id)->exists();
+        if(!$exists){
+            $update = TaskLabel::where('id',$request->id)->update([
+                'name' => $request->name,
+                'color' => $request->color
+            ]);
+            if($update){
+                return response()->json(['success' => 'Task Label updated successfully'],200);
+            }else{
+                return response()->json(['error_success' => 'Task Label not updated']);
+            }
         }else{
-            return response()->json(['error_success' => 'Task Label not updated']);
+            return response()->json(['already_found' => 'This Task label already exists.']);
         }
+        
     }
     public function delete(Request $request){
         $delete = TaskLabel::where('id',$request->id)->delete();
@@ -162,15 +173,19 @@ class TasksettingController extends Controller
         if($validator->fails()){
             return response()->json(['error_validation'=> $validator->errors()->all(),],422);
         }
-
-        $TaskLabel = new TaskStatus();
-        $TaskLabel->name = $request->name;
-        $TaskLabel->color = $request->color;
-        if($TaskLabel->save()){
-            return response()->json(['success' => 'Task Status addedd successfully'],200);
+        $exists = TaskStatus::where('name',$request->name)->exists();
+        if(!$exists){
+            $TaskLabel = new TaskStatus();
+            $TaskLabel->name = $request->name;
+            $TaskLabel->color = $request->color;
+            if($TaskLabel->save()){
+                return response()->json(['success' => 'Task Status addedd successfully'],200);
+            }else{
+                return response()->json(['error_success' => 'Task Status not added']);
+            }
         }else{
-            return response()->json(['error_success' => 'Task not added']);
-        }
+           return response()->json(['already_found' => 'This Task Status already exists.']);
+        }    
     }
 
     public function taskStatusPositionUpdate(Request $request){
@@ -213,15 +228,20 @@ class TasksettingController extends Controller
     }
 
     public function taskStatusUpdate(Request $request){
-        $update = TaskStatus::where('id',$request->id)->update([
-            'name' => $request->name,
-            'color' => $request->color
-        ]);
-        if($update){
-            return response()->json(['success' => 'Task Status updated successfully'],200);
+        $exists = TaskStatus::where('name',$request->name)->where('id','!=',$request->id)->exists();
+        if(!$exists){
+            $update = TaskStatus::where('id',$request->id)->update([
+                'name' => $request->name,
+                'color' => $request->color
+            ]);
+            if($update){
+                return response()->json(['success' => 'Task Status updated successfully'],200);
+            }else{
+                return response()->json(['error_success' => 'Task Status not updated']);
+            }
         }else{
-            return response()->json(['error_success' => 'Task Status not updated']);
-        }
+            return response()->json(['already_found' => 'This Task Status already exists.']);
+        }    
     }
     public function taskStatusDelete(Request $request){
         $delete = TaskStatus::where('id',$request->id)->delete();
@@ -275,16 +295,20 @@ class TasksettingController extends Controller
         if($validator->fails()){
             return response()->json(['error_validation'=> $validator->errors()->all(),],422);
         }
-
-        $TaskLabel = new TaskPriority();
-        $TaskLabel->name = $request->name;
-        $TaskLabel->color = $request->color;
-        if($TaskLabel->save()){
-            return response()->json(['success' => 'Task Priority addedd successfully'],200);
+        $exists = TaskPriority::where('name',$request->name)->exists();
+        if(!$exists){
+            $TaskLabel = new TaskPriority();
+            $TaskLabel->name = $request->name;
+            $TaskLabel->color = $request->color;
+            if($TaskLabel->save()){
+                return response()->json(['success' => 'Task Priority addedd successfully'],200);
+            }else{
+                return response()->json(['error_success' => 'Task Priority not added']);
+            }
         }else{
-            return response()->json(['error_success' => 'Task Priority not added']);
-        }
-    }
+           return response()->json(['already_found' => 'This Task Priority already exists.']);
+        }       
+    }   
 
     public function taskPriorityPositionUpdate(Request $request){
         $order = $request->order;
@@ -326,15 +350,20 @@ class TasksettingController extends Controller
     }
 
     public function taskPriorityUpdate(Request $request){
-        $update = TaskPriority::where('id',$request->id)->update([
-            'name' => $request->name,
-            'color' => $request->color
-        ]);
-        if($update){
-            return response()->json(['success' => 'Task Priority updated successfully'],200);
+        $exists = TaskPriority::where('name',$request->name)->where('id','!=',$request->id)->exists();
+        if(!$exists){
+            $update = TaskPriority::where('id',$request->id)->update([
+                'name' => $request->name,
+                'color' => $request->color
+            ]);
+            if($update){
+                return response()->json(['success' => 'Task Priority updated successfully'],200);
+            }else{
+                return response()->json(['error_success' => 'Task Priority not updated']);
+            }
         }else{
-            return response()->json(['error_success' => 'Task Priority not updated']);
-        }
+            return response()->json(['already_found' => 'This Task Priority already exists.']);
+        }       
     }
       public function taskPriorityDelete(Request $request){
         $delete = TaskPriority::where('id',$request->id)->delete();

@@ -16,6 +16,7 @@ Route::post('/admin-otpVerify', [AuthController::class, 'verifyotp'])->name('aut
 Route::post('/admin-passwordChange', [AuthController::class, 'updatepass'])->name('auth.update_pass');
 Route::get('/m-l/{token}', [AuthController::class, 'magicLinkVerify']);
 Route::get('/tokenInvalid', [AuthController::class, 'tokenError'])->name('auth.token_error');
+Route::get('/clear', [AuthController::class, 'clearCache']);
 
 
 
