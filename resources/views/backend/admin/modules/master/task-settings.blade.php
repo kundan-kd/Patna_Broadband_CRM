@@ -5,16 +5,6 @@
   <div class="container-fluid">
     <div class="page-title">
       <div class="row">
-        <div class="col-12 col-sm-6 p-0">
-          <h3>Task Label</h3>
-        </div>
-        <div class="col-12 col-sm-6 p-0">
-            <div class="float-end">
-                    <button class="btn btn-primary px-2 taskLabelAdd" type="button" data-bs-toggle="modal"
-                        data-bs-target="#taskLabelModel"><span class="btn-icon"><i class="ri-add-line" style="font-size:14px;"></i></span>
-                        Add Task Label</button>
-                </div>
-        </div>
       </div>
     </div>
   </div>
@@ -24,6 +14,14 @@
       <!-- Zero Configuration  Starts-->
       <div class="col-sm-12">
         <div class="card">
+          <div class="d-flex justify-content-between">
+              <h3 class="ms-3 mt-3">Task Label</h3>
+              <div class="float-end me-3 mt-3">
+                      <button class="btn btn-primary px-2 taskLabelAdd" type="button" data-bs-toggle="modal"
+                          data-bs-target="#taskLabelModel"><span class="btn-icon"><i class="ri-add-line" style="font-size:14px;"></i></span>
+                          Add Task Label</button>
+              </div>
+          </div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="display" id="task-label">
@@ -45,7 +43,6 @@
         </div>
       </div>
       <!-- Zero Configuration  Ends-->
-    
     </div>
   </div>
   <!-- Container-fluid Ends-->
@@ -92,26 +89,9 @@
         </div>
     </div>
     <!-- Task Label modal end-->
-
-
-
-
-
-
-
 <div class="container-fluid">
     <div class="page-title">
       <div class="row">
-        <div class="col-12 col-sm-6 p-0">
-          <h3>Task Status</h3>
-        </div>
-        <div class="col-12 col-sm-6 p-0">
-            <div class="float-end">
-                    <button class="btn btn-primary px-2 taskStatusAdd" type="button" data-bs-toggle="modal"
-                        data-bs-target="#taskStatusModel"><span class="btn-icon"><i class="ri-add-line" style="font-size:14px;"></i></span>
-                        Add Task Status</button>
-                </div>
-        </div>
       </div>
     </div>
   </div>
@@ -121,6 +101,14 @@
       <!-- Zero Configuration  Starts-->
       <div class="col-sm-12">
         <div class="card">
+          <div class="d-flex justify-content-between">
+              <h3 class="ms-3 mt-3">Task Status</h3>
+              <div class="float-end me-3 mt-3">
+                      <button class="btn btn-primary px-2 taskStatusAdd" type="button" data-bs-toggle="modal"
+                        data-bs-target="#taskStatusModel"><span class="btn-icon"><i class="ri-add-line" style="font-size:14px;"></i></span>
+                        Add Task Status</button>
+              </div>
+          </div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="display" id="task-status">
@@ -141,13 +129,9 @@
         </div>
       </div>
       <!-- Zero Configuration  Ends-->
-    
     </div>
   </div>
   <!-- Container-fluid Ends-->
-
-
-   
     <!-- Task Status modal start -->
     <div class="modal fade" id="taskStatusModel" tabindex="-1" role="dialog" aria-labelledby="taskStatusModel"
         aria-hidden="true">
@@ -191,23 +175,9 @@
         </div>
     </div>
     <!-- Task Status modal end-->
-
-
-
-
 <div class="container-fluid">
     <div class="page-title">
       <div class="row">
-        <div class="col-12 col-sm-6 p-0">
-          <h3>Task Priority</h3>
-        </div>
-        <div class="col-12 col-sm-6 p-0">
-            <div class="float-end">
-                    <button class="btn btn-primary px-2 taskPriorityAdd" type="button" data-bs-toggle="modal"
-                        data-bs-target="#taskPriorityModel"><span class="btn-icon"><i class="ri-add-line" style="font-size:14px;"></i></span>
-                        Add Task Priority</button>
-                </div>
-        </div>
       </div>
     </div>
   </div>
@@ -217,6 +187,14 @@
       <!-- Zero Configuration  Starts-->
       <div class="col-sm-12">
         <div class="card">
+          <div class="d-flex justify-content-between">
+              <h3 class="ms-3 mt-3">Task Priority</h3>
+              <div class="float-end me-3 mt-3">
+                      <button class="btn btn-primary px-2 taskPriorityAdd" type="button" data-bs-toggle="modal"
+                        data-bs-target="#taskPriorityModel"><span class="btn-icon"><i class="ri-add-line" style="font-size:14px;"></i></span>
+                        Add Task Priority</button>
+              </div>
+          </div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="display" id="task-priority">
@@ -237,7 +215,6 @@
         </div>
       </div>
       <!-- Zero Configuration  Ends-->
-    
     </div>
   </div>
   <!-- Container-fluid Ends-->
@@ -286,7 +263,6 @@
     <!-- Task Status modal end-->
 </div>
 
-    
 @endsection        
 @section('extra-js')
 <script>

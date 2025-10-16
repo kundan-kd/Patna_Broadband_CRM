@@ -12,9 +12,11 @@
     $('.needs-validation').removeClass('was-validated');
  });
 let tastLabelTable = $('#task-label').DataTable({
-    // "order": [[0, "desc"]], // Sort column in descending order
     processing: false,
     serverSide: true,
+    searching: false,     // disables the search box
+    info: false,          // hides the "Showing X of Y entries" text
+    paging: false,         // disables pagination
     ajax:{
         url:viewTaskLabel,
         type:"POST",
@@ -59,9 +61,6 @@ let tastLabelTable = $('#task-label').DataTable({
 
 });
 
-
-
-
 $('#taskLabel_form').on('submit',function(e){
     e.preventDefault();
     let name = $('#taskLabel_name').val();
@@ -91,7 +90,6 @@ $('#taskLabel_form').on('submit',function(e){
         })
     }
 });
-
 
 $(document).ready(function() {
     $('#task-label tbody').sortable({

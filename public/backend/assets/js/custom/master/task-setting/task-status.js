@@ -10,9 +10,11 @@
  });
 
 let tastStatusTable = $('#task-status').DataTable({
-    // "order": [[0, "desc"]], // Sort column in descending order
     processing: false,
     serverSide: true,
+    searching: false,     // disables the search box
+    info: false,          // hides the "Showing X of Y entries" text
+    paging: false,         // disables pagination
     ajax:{
         url:viewTaskStatus,
         type:"POST",
@@ -51,10 +53,9 @@ let tastStatusTable = $('#task-status').DataTable({
             searchable: false
         },
     ],
-      createdRow: function(row, data, dataIndex) {
+    createdRow: function(row, data, dataIndex) {
         $(row).attr('data-id', data.id); // Assuming `id` is part of your server response to pass it to sortable
     }
-
 });
 
 $('#taskStatus_form').on('submit',function(e){
