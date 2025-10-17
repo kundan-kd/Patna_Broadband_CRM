@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-
 class AuthController extends Controller
 {
    public function index(){
@@ -32,6 +31,12 @@ class AuthController extends Controller
          'password' => $request->password
       ]);
       if ($auth) {
+         // $token = auth()->user()->remember_token; // get remember token which stored in user table.
+         $sessionToken = Str::random(60);
+         $user = Auth::user();
+         $user->session_token = $sessionToken; // Override old session token
+         $user->save();
+         session(['session_token' => $sessionToken]);
          $response = response()->json(['success' => true, 'user_id' => auth()->user()->id, 'user_name' => auth()->user()->name], 200);
       } else {
          $response = response()->json(['error_success' => 'credentials do not matched !'], 200);

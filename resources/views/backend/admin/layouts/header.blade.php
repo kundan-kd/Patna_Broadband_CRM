@@ -56,7 +56,7 @@
   </head>
   <body>
     <!-- loader starts  -->
-    <div class="loader">  
+    {{-- <div class="loader">  
       <div class="jumpy-bars">
         <div class="bar" id="bar1"></div>
         <div class="bar" id="bar2"></div>
@@ -66,7 +66,14 @@
         <div class="bar" id="bar6"></div>
         <div class="bar" id="bar7"></div>
       </div>
-    </div>
+    </div> --}}
+
+    	<!-- Preloader -->
+	<div class="preloader">
+		<div class="box">
+		 	<img src="{{ asset('backend/assets/images/logo/logo.svg') }}" alt="preloader" style="width:120px; height:auto;" />
+		</div>
+	</div>
     <!-- loader ends-->
        {{-- toast alert included --}}
     @include('backend.admin.alert.toast')
@@ -80,12 +87,12 @@
         <div class="header-wrapper row m-0">
           <div class="header-logo-wrapper col-auto p-0">
             <div class="logo-wrapper">
-              <a href="index.html">
+              <a href="#">
                 <!-- Light mode logo -->
-                <img class="img-fluid for-light mb-3" src="{{ asset('backend/assets/images/logo/logo.svg') }}" alt="loginpage" style="height: 27px; width: 150px;">
+                <img class="img-fluid for-light mb-3" src="{{ asset('backend/assets/images/logo/logo-2.png') }}" alt="loginpage" style="height: 27px;">
                 
                 <!-- Dark mode logo -->
-                <img class="img-fluid for-dark mb-3 mx-auto" src="{{ asset('backend/assets/images/logo/logo.svg') }}" alt="loginpage" style="height: 27px; width: 150px;">
+                <img class="img-fluid for-dark mb-3 mx-auto" src="{{ asset('backend/assets/images/logo/logo-2.png') }}" alt="loginpage" style="height: 27px;">
               </a>
             </div>
             <div class="toggle-sidebar"><i data-feather="align-center"></i>

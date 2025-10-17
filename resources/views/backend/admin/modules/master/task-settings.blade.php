@@ -13,7 +13,7 @@
     <div class="row">
       <!-- Zero Configuration  Starts-->
       <div class="col-sm-12">
-        <div class="card">
+        <div class="card d-none" id="taskLabelCard">
           <div class="d-flex justify-content-between">
               <h3 class="ms-3 mt-3">Task Label</h3>
               <div class="float-end me-3 mt-3">
@@ -27,7 +27,7 @@
               <table class="display" id="task-label">
                 <thead>
                   <tr>
-                    <th>SL.No.</th>
+                    <th>Position</th>
                     <th>Name</th>
                     <th>Color</th>
                     <th>Status</th>
@@ -79,9 +79,9 @@
                             <div class="modal-footer">
                                 <button class="btn btn-outline-warning" type="button"
                                     data-bs-dismiss="modal" onclick="resetmodel()">Cancel</button>
-                                <button class="btn btn-primary taskLabelSubmit" type="submit">Submit</button>
+                                <button class="btn btn-primary taskLabelSubmit" type="submit" disabled>Submit</button>
                                 <button class="btn btn-primary taskLabelUpdate d-none" type="button"
-                                    onclick="taskLabelUpdate(document.getElementById('taskLabel_id').value)">Update</button>
+                                    onclick="taskLabelUpdate(document.getElementById('taskLabel_id').value)" disabled>Update</button>
                             </div>
                     </form>
                 </div>
@@ -100,7 +100,7 @@
     <div class="row">
       <!-- Zero Configuration  Starts-->
       <div class="col-sm-12">
-        <div class="card">
+        <div class="card d-none" id="taskStatusCard">
           <div class="d-flex justify-content-between">
               <h3 class="ms-3 mt-3">Task Status</h3>
               <div class="float-end me-3 mt-3">
@@ -114,7 +114,7 @@
               <table class="display" id="task-status">
                 <thead>
                   <tr>
-                    <th>SL.No.</th>
+                    <th>Position</th>
                     <th>Name</th>
                     <th>Color</th>
                     <th>Status</th>
@@ -165,9 +165,9 @@
                             <div class="modal-footer">
                                 <button class="btn btn-outline-warning" type="button"
                                     data-bs-dismiss="modal" onclick="resetmodel()">Cancel</button>
-                                <button class="btn btn-primary taskStatusSubmit" type="submit">Submit</button>
+                                <button class="btn btn-primary taskStatusSubmit" type="submit" disabled>Submit</button>
                                 <button class="btn btn-primary taskStatusUpdate d-none" type="button"
-                                    onclick="taskStatusUpdate(document.getElementById('taskStatus_id').value)">Update</button>
+                                    onclick="taskStatusUpdate(document.getElementById('taskStatus_id').value)" disabled>Update</button>
                             </div>
                     </form>
                 </div>
@@ -186,7 +186,7 @@
     <div class="row">
       <!-- Zero Configuration  Starts-->
       <div class="col-sm-12">
-        <div class="card">
+        <div class="card d-none" id="taskPriorityCard">
           <div class="d-flex justify-content-between">
               <h3 class="ms-3 mt-3">Task Priority</h3>
               <div class="float-end me-3 mt-3">
@@ -200,7 +200,7 @@
               <table class="display" id="task-priority">
                 <thead>
                   <tr>
-                    <th>SL.No.</th>
+                    <th>Position</th>
                     <th>Name</th>
                     <th>Color</th>
                     <th>Status</th>
@@ -251,9 +251,9 @@
                             <div class="modal-footer">
                                 <button class="btn btn-outline-warning" type="button"
                                     data-bs-dismiss="modal" onclick="resetmodel()">Cancel</button>
-                                <button class="btn btn-primary taskPrioritySubmit" type="submit">Submit</button>
+                                <button class="btn btn-primary taskPrioritySubmit" type="submit" disabled>Submit</button>
                                 <button class="btn btn-primary taskPriorityUpdate d-none" type="button"
-                                    onclick="taskPriorityUpdate(document.getElementById('taskPriority_id').value)">Update</button>
+                                    onclick="taskPriorityUpdate(document.getElementById('taskPriority_id').value)" disabled>Update</button>
                             </div>
                     </form>
                 </div>

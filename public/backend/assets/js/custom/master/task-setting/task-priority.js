@@ -8,6 +8,7 @@
     $('.taskPriorityTitle').html('Add Task Priority');
     $('.taskPriorityUpdate').addClass('d-none');
     $('.taskPrioritySubmit').removeClass('d-none');
+    $('.taskPrioritySubmit').prop('disabled',true);
     $('.needs-validation').removeClass('was-validated');
  });
 
@@ -54,7 +55,19 @@ let tastPriorityTable = $('#task-priority').DataTable({
     ],
     createdRow: function(row, data, dataIndex) {
         $(row).attr('data-id', data.id); // Assuming `id` is part of your server response to pass it to sortable
+    },
+      initComplete: function(settings, json) {
+        $('#taskPriorityCard').removeClass('d-none');
     }
+});
+
+$('#taskPriority_name').on('keydown',function(){
+    $('.taskPrioritySubmit').prop('disabled',false);
+    $('.taskPriorityUpdate').prop('disabled',false);
+});
+$('#taskPriority_color').on('click',function(){
+    $('.taskPrioritySubmit').prop('disabled',false);
+    $('.taskPriorityUpdate').prop('disabled',false);
 });
 
 $('#taskPriority_form').on('submit',function(e){
@@ -161,7 +174,7 @@ function taskPriorityEdit(id){
                 $('#taskPriority_color').val(data.color);
                 $('.taskPriorityTitle').html('Update Task Priority');
                 $('.taskPrioritySubmit').addClass('d-none');
-                $('.taskPriorityUpdate').removeClass('d-none');
+                $('.taskPriorityUpdate').removeClass('d-none').prop('disabled',true);
                 $('#taskPriorityModel').modal('show');
             } else {
                 alert("error");

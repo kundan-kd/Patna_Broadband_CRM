@@ -63,6 +63,20 @@
         .find(row => row.startsWith('lockscreen_status='))
         ?.split('=')[1];
       if (lockStatus) myalert();
+
+
+
+      	//Hide Loading Box (Preloader)
+	function handlePreloader() {
+		if($('.preloader').length){
+			$('.preloader').delay(200).fadeOut(200);
+		}
+	}
+
+  	$(window).on('load', function() {
+		handlePreloader();
+	});	
+
     </script>
     @yield('extra-js')
    

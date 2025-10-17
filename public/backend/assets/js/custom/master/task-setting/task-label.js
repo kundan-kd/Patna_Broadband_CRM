@@ -9,6 +9,7 @@
     $('.taskLabelTitle').html('Add Task Label');
     $('.taskLabelUpdate').addClass('d-none');
     $('.taskLabelSubmit').removeClass('d-none');
+    $('.taskLabelSubmit').prop('disabled',true);
     $('.needs-validation').removeClass('was-validated');
  });
 let tastLabelTable = $('#task-label').DataTable({
@@ -57,10 +58,20 @@ let tastLabelTable = $('#task-label').DataTable({
     ],
       createdRow: function(row, data, dataIndex) {
         $(row).attr('data-id', data.id); // Assuming `id` is part of your server response to pass it to sortable
+    },
+      initComplete: function(settings, json) {
+        $('#taskLabelCard').removeClass('d-none');
     }
 
 });
-
+$('#taskLabel_name ').on('keydown',function(){
+    $('.taskLabelSubmit').prop('disabled',false);
+    $('.taskLabelUpdate').prop('disabled',false);
+});
+$('#taskLabel_color').on('click',function(){
+    $('.taskLabelSubmit').prop('disabled',false);
+    $('.taskLabelUpdate').prop('disabled',false);
+});
 $('#taskLabel_form').on('submit',function(e){
     e.preventDefault();
     let name = $('#taskLabel_name').val();
@@ -165,7 +176,7 @@ function taskEdit(id){
                 $('#taskLabel_color').val(data.color);
                 $('.taskLabelTitle').html('Update Task Label');
                 $('.taskLabelSubmit').addClass('d-none');
-                $('.taskLabelUpdate').removeClass('d-none');
+                $('.taskLabelUpdate').removeClass('d-none').prop('disabled',true);
                 $('#taskLabelModel').modal('show');
             } else {
                 alert("error");

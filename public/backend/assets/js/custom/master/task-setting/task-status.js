@@ -6,6 +6,7 @@
     $('.taskStatusTitle').html('Add Task Status');
     $('.taskStatusUpdate').addClass('d-none');
     $('.taskStatusSubmit').removeClass('d-none');
+    $('.taskStatusSubmit').prop('disabled',true);
     $('.needs-validation').removeClass('was-validated');
  });
 
@@ -55,7 +56,19 @@ let tastStatusTable = $('#task-status').DataTable({
     ],
     createdRow: function(row, data, dataIndex) {
         $(row).attr('data-id', data.id); // Assuming `id` is part of your server response to pass it to sortable
+    },
+      initComplete: function(settings, json) {
+        $('#taskStatusCard').removeClass('d-none');
     }
+});
+
+$('#taskStatus_name').on('keydown',function(){
+    $('.taskStatusSubmit').prop('disabled',false);
+    $('.taskStatusUpdate').prop('disabled',false);
+});
+$('#taskStatus_color').on('click',function(){
+    $('.taskStatusSubmit').prop('disabled',false);
+    $('.taskStatusUpdate').prop('disabled',false);
 });
 
 $('#taskStatus_form').on('submit',function(e){
@@ -162,7 +175,7 @@ function taskStatusEdit(id){
                 $('#taskStatus_color').val(data.color);
                 $('.taskStatusTitle').html('Update Task Status');
                 $('.taskStatusSubmit').addClass('d-none');
-                $('.taskStatusUpdate').removeClass('d-none');
+                $('.taskStatusUpdate').removeClass('d-none').prop('disabled',true);
                 $('#taskStatusModel').modal('show');
             } else {
                 alert("error");

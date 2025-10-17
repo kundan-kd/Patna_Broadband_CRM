@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name',100)->nullable();
             $table->string('color',20)->nullable();
+            $table->string('color_history',100)->nullable();
             $table->integer('position')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
