@@ -28,10 +28,12 @@ let tastStatusTable = $('#task-status').DataTable({
         }
     },
     columns:[
-        {
+         {
             data: 'DT_RowIndex',
-            name: 'DT_RowIndex'
-
+            name: 'DT_RowIndex',
+            render: function(data, type, row, meta) {
+            return `<i class="ri-draggable handle me-4" style="cursor:move;"></i>${data}`;
+            }
         },
         {
             data:'name',
@@ -103,6 +105,7 @@ $('#taskStatus_form').on('submit',function(e){
 
 $(document).ready(function() {
     $('#task-status tbody').sortable({
+        handle: '.handle',
         update: function( event, ui ) {
             var sortedData = [];
             $('#task-status tbody tr').each(function(index) {
@@ -126,7 +129,7 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.success) {
                         $('#task-status').DataTable().ajax.reload();
-                        toastSuccessAlert(data.success)
+                        toastSuccessAlertUndo(data.success); // for undo position change
                     } else if (data.error_success) {
                         toastErrorAlert(data.error_success);
                     } else {
@@ -160,29 +163,75 @@ function taskStatusSwitch(id){
     });
 }
 
-function taskStatusEdit(id){
+function taskStatusEdit(id) {
     $.ajax({
-        url: getTasStatuskDetails,
+        url: getTaskStatusDetails,
         type: "POST",
-        data: {
-            id: id
-        },
-        success: function(response) {
+        data: { id: id },
+        success: function (response) {
             if (response.success) {
                 let data = response.getData[0];
+
+                // Set form field values
                 $('#taskStatus_id').val(data.id);
                 $('#taskStatus_name').val(data.name);
                 $('#taskStatus_color').val(data.color);
+
+                // Remove old color history if it exists
+                $('.color-history').remove();
+
+                // Check and append color history (if available)
+                if (data.color_history) {
+                    let colorArray = data.color_history.split(',');
+
+                    // Build color history HTML
+                    let colorHistoryDiv = `
+                        <div class="color-history mt-2">
+                            <label class="form-label">Color History</label>
+                            <div class="d-flex align-items-center justify-content-center flex-wrap gap-1">
+                                ${colorArray.map(color => `
+                                    <input class="form-control form-input-color rounded-1"
+                                        type="color"
+                                        name="mycolor"
+                                        style="width:50px; height:20px; padding:2px; cursor:pointer;"
+                                        value="${color.trim()}"
+                                        data-color="${color.trim()}">
+                                `).join('')}
+                                &nbsp;
+                                <div onclick="document.getElementById('taskStatus_color').click()" style="cursor:pointer;">
+                                    <span><i class="fa-solid fa-palette fa-2x"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Append the color-history section after the color field
+                    $('#taskStatus_color').closest('.col-md-12').after(colorHistoryDiv);
+
+                    // Bind click event to dynamically created color inputs
+                    setTimeout(() => {
+                        $('.form-input-color').on('click', function () {
+                            const selectedColor = $(this).val();
+                            $('#taskStatus_color').val(selectedColor);
+                            $('.taskStatusSubmit, .taskStatusUpdate').prop('disabled', false);
+                        });
+                    }, 0);
+                }
+
+                // Update modal UI (title & buttons)
                 $('.taskStatusTitle').html('Update Task Status');
                 $('.taskStatusSubmit').addClass('d-none');
-                $('.taskStatusUpdate').removeClass('d-none').prop('disabled',true);
+                $('.taskStatusUpdate').removeClass('d-none').prop('disabled', true);
+
+                // Show modal
                 $('#taskStatusModel').modal('show');
             } else {
-                alert("error");
+                alert("Error fetching task status details");
             }
         }
     });
 }
+
 
 function taskStatusUpdate(id){
    let name = $('#taskStatus_name').val();
@@ -261,3 +310,21 @@ function deleteTaskStatus(id) {
         }
     });
 }
+
+$(document).on('click', '#liveToastSuccessAlert a', function(e) {
+    e.preventDefault();
+    $.ajax({
+        url: undoTaskStatusPosition, // ✅ Your undo route
+        method: 'POST',
+        success: function(data) {
+            if (data.success) {
+                $('#task-status').DataTable().ajax.reload();
+                toastSuccessAlert(data.success);
+            } else if (data.error_success) {
+                toastErrorAlert(data.error_success);
+            } else {
+                toastErrorAlert('Something went wrong!');
+            }
+        }
+    });
+});

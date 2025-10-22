@@ -68,8 +68,10 @@ class TasksettingController extends Controller
         }
         
     }
-
     public function taskLabelPositionUpdate(Request $request){
+        $prePosition = TaskLabel::orderBy('id', 'asc')->pluck('position', 'id')->toArray();
+        session(['previous_task_label_positions' => $prePosition]); // ✅ Store in session
+
         $order = $request->order;
         foreach ($order as $item) {
             $ids = $item['id'];
@@ -86,6 +88,18 @@ class TasksettingController extends Controller
             $response = response()->json(['error_success' => 'Position not updated']);
         }
         return $response;
+    }
+
+    public function undoTaskLabelPosition()
+    {
+        $previous = session('previous_task_label_positions');
+        if ($previous && is_array($previous)) {
+            foreach ($previous as $id => $position) {
+                TaskLabel::where('id', $id)->update(['position' => $position]);
+            }
+            return response()->json(['success' => 'Undo successful']);
+        }
+        return response()->json(['error_success' => 'No previous position found']);
     }
 
     public function switch(Request $request){
@@ -198,6 +212,8 @@ class TasksettingController extends Controller
     }
 
     public function taskStatusPositionUpdate(Request $request){
+         $prePosition = TaskStatus::orderBy('id', 'asc')->pluck('position', 'id')->toArray();
+        session(['previous_task_status_positions' => $prePosition]); // ✅ Store in session
         $order = $request->order;
         foreach ($order as $item) {
             $ids = $item['id'];
@@ -216,6 +232,18 @@ class TasksettingController extends Controller
         return $response;
     }
 
+    public function undoTaskStatusPosition()
+    {
+        $previous = session('previous_task_status_positions');
+        if ($previous && is_array($previous)) {
+            foreach ($previous as $id => $position) {
+                TaskStatus::where('id', $id)->update(['position' => $position]);
+            }
+            return response()->json(['success' => 'Undo successful']);
+        }
+        return response()->json(['error_success' => 'No previous position found']);
+    }
+
     public function taskStatusSwitch(Request $request){
         $sstatus = TaskStatus::where('id',$request->id)->get(['status']);
         $status = $sstatus[0]->status;
@@ -232,7 +260,7 @@ class TasksettingController extends Controller
     }
 
     public function taskStatusGetDetails(Request $request){
-        $getData = TaskStatus::where('id',$request->id)->get(['id','name','color']);
+        $getData = TaskStatus::where('id',$request->id)->get(['id','name','color','color_history']);
         return response()->json(['success' => 'Data Fetched Successfully','getData'=>$getData],200);
     }
 
@@ -328,6 +356,8 @@ class TasksettingController extends Controller
     }   
 
     public function taskPriorityPositionUpdate(Request $request){
+         $prePosition = TaskPriority::orderBy('id', 'asc')->pluck('position', 'id')->toArray();
+        session(['previous_task_priority_positions' => $prePosition]); // ✅ Store in session
         $order = $request->order;
         foreach ($order as $item) {
             $ids = $item['id'];
@@ -361,8 +391,19 @@ class TasksettingController extends Controller
         return response()->json(['success' => 'Status Updated Successfully'],200);
     }
 
+     public function undoTaskPriorityPosition(){
+        $previous = session('previous_task_priority_positions');
+        if ($previous && is_array($previous)) {
+            foreach ($previous as $id => $position) {
+                TaskPriority::where('id', $id)->update(['position' => $position]);
+            }
+            return response()->json(['success' => 'Undo successful']);
+        }
+        return response()->json(['error_success' => 'No previous position found']);
+    }
+
     public function taskPriorityGetDetails(Request $request){
-        $getData = TaskPriority::where('id',$request->id)->get(['id','name','color']);
+        $getData = TaskPriority::where('id',$request->id)->get(['id','name','color','color_history']);
         return response()->json(['success' => 'Data Fetched Successfully','getData'=>$getData],200);
     }
 

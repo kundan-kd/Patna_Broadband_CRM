@@ -27,10 +27,12 @@ let tastPriorityTable = $('#task-priority').DataTable({
         }
     },
     columns:[
-        {
+         {
             data: 'DT_RowIndex',
-            name: 'DT_RowIndex'
-
+            name: 'DT_RowIndex',
+            render: function(data, type, row, meta) {
+            return `<i class="ri-draggable handle me-4" style="cursor:move;"></i>${data}`;
+            }
         },
         {
             data:'name',
@@ -102,6 +104,7 @@ $('#taskPriority_form').on('submit',function(e){
 
 $(document).ready(function() {
     $('#task-priority tbody').sortable({
+        handle:'.handle', // drag only handle class 
         update: function( event, ui ) {
             var sortedData = [];
             $('#task-priority tbody tr').each(function(index) {
@@ -125,7 +128,7 @@ $(document).ready(function() {
                 success: function(data) {
                     if(data.success) {
                         $('#task-priority').DataTable().ajax.reload();
-                        toastSuccessAlert(data.success)
+                        toastSuccessAlertUndo(data.success)
                     } else if (data.error_success) {
                         toastErrorAlert(data.error_success);
                     } else {
@@ -159,29 +162,73 @@ function taskPrioritySwitch(id){
     });
 }
 
-function taskPriorityEdit(id){
+function taskPriorityEdit(id) {
     $.ajax({
         url: getTaskPriorityDetails,
         type: "POST",
-        data: {
-            id: id
-        },
-        success: function(response) {
+        data: { id: id },
+        success: function (response) {
             if (response.success) {
                 let data = response.getData[0];
+
+                // Set form field values
                 $('#taskPriority_id').val(data.id);
                 $('#taskPriority_name').val(data.name);
                 $('#taskPriority_color').val(data.color);
+
+                // Remove old color history (if any)
+                $('.color-history').remove();
+
+                // Check and append color history (if exists)
+                if (data.color_history) {
+                    let colorArray = data.color_history.split(',');
+
+                    // Build color history section
+                    let colorHistoryDiv = `
+                        <div class="color-history mt-2">
+                            <label class="form-label">Color History</label>
+                            <div class="d-flex align-items-center justify-content-center flex-wrap gap-1">
+                                ${colorArray.map(color => `
+                                    <input class="form-control form-input-color rounded-1"
+                                        type="color" name="mycolor"
+                                        style="width:50px; height:20px; padding:2px; cursor:pointer;"
+                                        value="${color.trim()}" data-color="${color.trim()}">
+                                `).join('')}
+                                &nbsp;
+                                <div onclick="document.getElementById('taskPriority_color').click()" style="cursor:pointer;">
+                                    <span><i class="fa-solid fa-palette fa-2x"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Append after color input field
+                    $('#taskPriority_color').closest('.col-md-12').after(colorHistoryDiv);
+
+                    // Bind click event to dynamically added color boxes
+                    setTimeout(() => {
+                        $('.form-input-color').on('click', function () {
+                            const selectedColor = $(this).val();
+                            $('#taskPriority_color').val(selectedColor);
+                            $('.taskPrioritySubmit, .taskPriorityUpdate').prop('disabled', false);
+                        });
+                    }, 0);
+                }
+
+                // Update modal title and buttons
                 $('.taskPriorityTitle').html('Update Task Priority');
                 $('.taskPrioritySubmit').addClass('d-none');
-                $('.taskPriorityUpdate').removeClass('d-none').prop('disabled',true);
+                $('.taskPriorityUpdate').removeClass('d-none').prop('disabled', true);
+
+                // Show modal
                 $('#taskPriorityModel').modal('show');
             } else {
-                alert("error");
+                alert("Error fetching task priority details");
             }
         }
     });
 }
+
 
 function taskPriorityUpdate(id){
    let name = $('#taskPriority_name').val();
@@ -260,3 +307,21 @@ function deleteTaskPriority(id) {
         }
     });
 }
+
+$(document).on('click', '#liveToastSuccessAlert a', function(e) {
+    e.preventDefault();
+    $.ajax({
+        url: undoTaskPriorityPosition, // ✅ Your undo route
+        method: 'POST',
+        success: function(data) {
+            if (data.success) {
+                $('#task-priority').DataTable().ajax.reload();
+                toastSuccessAlert(data.success);
+            } else if (data.error_success) {
+                toastErrorAlert(data.error_success);
+            } else {
+                toastErrorAlert('Something went wrong!');
+            }
+        }
+    });
+});

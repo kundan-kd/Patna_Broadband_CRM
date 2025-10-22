@@ -248,6 +248,7 @@
                                 </div>
                             </div>
                         </div>
+                        {{-- <div class="color-history"></div> --}}
                             <div class="modal-footer">
                                 <button class="btn btn-outline-warning" type="button"
                                     data-bs-dismiss="modal" onclick="resetmodel()">Cancel</button>
@@ -273,14 +274,16 @@
     const getTaskDetails = "{{route('admin-master-taskLabel-getDetails')}}";
     const updateTaskLabel = "{{route('admin-master-taskLabel-update')}}";
     const deleteTaskLabel = "{{route('admin-master-taskLabel-delete')}}";
+    const undoTaskLabelPosition = "{{route('undoTaskLabelPosition')}}";
 
     const viewTaskStatus = "{{route('admin-master-taskStatus-view')}}";
     const addTaskStatus = "{{route('admin-master-taskStatus-add')}}";
     const taskStatusPositionUpdate = "{{route('admin-master-taskSetting-positionUpdate')}}";
     const taskStatusDataSwitch = "{{route('admin-master-taskSetting-switch')}}";
-    const getTasStatuskDetails = "{{route('admin-master-taskSetting-getDetails')}}";
+    const getTaskStatusDetails = "{{route('admin-master-taskSetting-getDetails')}}";
     const updateTaskStatus = "{{route('admin-master-taskSetting-update')}}";
     const deleteTaskStatuss = "{{route('admin-master-taskSetting-delete')}}";
+    const undoTaskStatusPosition = "{{route('undoTaskStatusPosition')}}";
     
     const viewTaskPriority = "{{route('admin-master-taskPriority-view')}}";
     const addTaskPriority = "{{route('admin-master-taskPriority-add')}}";
@@ -289,6 +292,7 @@
     const getTaskPriorityDetails = "{{route('admin-master-taskPriority-getDetails')}}";
     const updateTaskPriority = "{{route('admin-master-taskPriority-update')}}";
     const deleteTaskPrioritys = "{{route('admin-master-taskPriority-delete')}}";
+    const undoTaskPriorityPosition = "{{route('undoTaskPriorityPosition')}}";
 
 </script>
     <script src="{{asset('backend/assets/js/custom/master/task-setting/task-label.js')}}"></script>

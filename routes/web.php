@@ -38,6 +38,8 @@ Route::middleware(['prevent-back', 'prevent-back-history'])->group(function(){
     Route::post('/task-label-details',[TasksettingController::class,'getDetails'])->name('admin-master-taskLabel-getDetails');
     Route::post('/task-label-update',[TasksettingController::class,'update'])->name('admin-master-taskLabel-update');
     Route::post('/task-label-delete',[TasksettingController::class,'delete'])->name('admin-master-taskLabel-delete');
+    Route::post('/task-label/undo-position', [TasksettingController::class, 'undoTaskLabelPosition'])->name('undoTaskLabelPosition');
+
 
     Route::post('/task-status-view',[TasksettingController::class,'taskStatusView'])->name('admin-master-taskStatus-view');
     Route::post('/task-status-add',[TasksettingController::class,'taskStatusAdd'])->name('admin-master-taskStatus-add');
@@ -46,6 +48,7 @@ Route::middleware(['prevent-back', 'prevent-back-history'])->group(function(){
     Route::post('/task-status-details',[TasksettingController::class,'taskStatusGetDetails'])->name('admin-master-taskSetting-getDetails');
     Route::post('/task-status-update',[TasksettingController::class,'taskStatusUpdate'])->name('admin-master-taskSetting-update');
     Route::post('/task-status-delete',[TasksettingController::class,'taskStatusDelete'])->name('admin-master-taskSetting-delete');
+    Route::post('/task-status/undo-position', [TasksettingController::class, 'undoTaskStatusPosition'])->name('undoTaskStatusPosition');
 
     Route::post('/task-priority-view',[TasksettingController::class,'taskPriorityView'])->name('admin-master-taskPriority-view');
     Route::post('/task-priority-add',[TasksettingController::class,'taskPriorityAdd'])->name('admin-master-taskPriority-add');
@@ -54,5 +57,6 @@ Route::middleware(['prevent-back', 'prevent-back-history'])->group(function(){
     Route::post('/task-priority-details',[TasksettingController::class,'taskPriorityGetDetails'])->name('admin-master-taskPriority-getDetails');
     Route::post('/task-priority-update',[TasksettingController::class,'taskPriorityUpdate'])->name('admin-master-taskPriority-update');
     Route::post('/task-priority-delete',[TasksettingController::class,'taskPriorityDelete'])->name('admin-master-taskPriority-delete');
+     Route::post('/task-priority/undo-position', [TasksettingController::class, 'undoTaskPriorityPosition'])->name('undoTaskPriorityPosition');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });

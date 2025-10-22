@@ -32,9 +32,12 @@ let tastLabelTable = $('#task-label').DataTable({
     columns:[
         {
             data: 'DT_RowIndex',
-            name: 'DT_RowIndex'
-
+            name: 'DT_RowIndex',
+            render: function(data, type, row, meta) {
+            return `<i class="ri-draggable handle me-4" style="cursor:move;"></i>${data}`;
+            }
         },
+
         {
             data:'name',
             name:'name'
@@ -62,7 +65,6 @@ let tastLabelTable = $('#task-label').DataTable({
       initComplete: function(settings, json) {
         $('#taskLabelCard').removeClass('d-none');
     }
-
 });
 $('#taskLabel_name ').on('keydown',function(){
     $('.taskLabelSubmit').prop('disabled',false);
@@ -104,6 +106,7 @@ $('#taskLabel_form').on('submit',function(e){
 
 $(document).ready(function() {
     $('#task-label tbody').sortable({
+        handle: '.handle', // 👈 Only allow dragging from elements with class "handle"
         update: function( event, ui ) {
             var sortedData = [];
             $('#task-label tbody tr').each(function(index) {
@@ -127,7 +130,7 @@ $(document).ready(function() {
                 success: function(data) {
                     if (data.success) {
                         $('#task-label').DataTable().ajax.reload();
-                        toastSuccessAlert(data.success)
+                        toastSuccessAlertUndo(data.success); // for undo position change
                     } else if (data.error_success) {
                         toastErrorAlert(data.error_success);
                     } else {
@@ -161,32 +164,98 @@ function taskSwitch(id){
     });
 }
 
-function taskEdit(id){
+// function taskEdit(id){
+//     $.ajax({
+//         url: getTaskDetails,
+//         type: "POST",
+//         data: {
+//             id: id
+//         },
+//         success: function(response) {
+//             if (response.success) {
+//                 let data = response.getData[0];
+//                 $('#taskLabel_id').val(data.id);
+//                 $('#taskLabel_name').val(data.name);
+//                 $('#taskLabel_color').val(data.color);
+//                 $('.taskLabelTitle').html('Update Task Label');
+//                 $('.taskLabelSubmit').addClass('d-none');
+//                 $('.taskLabelUpdate').removeClass('d-none').prop('disabled',true);
+//                 $('#taskLabelModel').modal('show');
+//             } else {
+//                 alert("error");
+//             }
+//         }
+//     });
+// }
+
+function taskEdit(id) {
     $.ajax({
         url: getTaskDetails,
         type: "POST",
-        data: {
-            id: id
-        },
-        success: function(response) {
+        data: { id: id },
+        success: function (response) {
             if (response.success) {
                 let data = response.getData[0];
+
+                // Set form field values
                 $('#taskLabel_id').val(data.id);
                 $('#taskLabel_name').val(data.name);
                 $('#taskLabel_color').val(data.color);
+
+                // Remove old color history (if any)
+                $('.color-history').remove();
+
+                // Check and append color history (if exists)
+                if (data.color_history) {
+                    let colorArray = data.color_history.split(',');
+                    let colorHistoryDiv = `
+                        <div class="color-history mt-2">
+                            <label class="form-label">Color History</label>
+                            <div class="d-flex align-items-center justify-content-center flex-wrap gap-1">
+                                ${colorArray.map(color => `
+                                    <input class="form-control form-input-color rounded-1"
+                                        type="color" name="mycolor"
+                                        style="width:50px; height:20px; padding:2px;"
+                                        value="${color.trim()}" data-color="${color.trim()}"
+                                        onclick="$('#taskLabel_color').val('${color.trim()}');">
+                                `).join('')}
+                                &nbsp;
+                                <div onclick="document.getElementById('taskLabel_color').click()">
+                                    <span><i class="fa-solid fa-palette fa-2x"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    $('#taskLabel_color').closest('.col-md-12').after(colorHistoryDiv);
+
+                    // Bind click event to dynamically added inputs
+                    setTimeout(() => {
+                        $('.form-input-color').on('click', function () {
+                            const selectedColor = $(this).val();
+                            $('#taskLabel_color').val(selectedColor);
+                            $('.taskLabelSubmit, .taskLabelUpdate').prop('disabled', false);
+                        });
+                    }, 0);
+                }
+
+                // Update modal title and buttons
                 $('.taskLabelTitle').html('Update Task Label');
                 $('.taskLabelSubmit').addClass('d-none');
-                $('.taskLabelUpdate').removeClass('d-none').prop('disabled',true);
+                $('.taskLabelUpdate').removeClass('d-none').prop('disabled', true);
+
+                // Show modal
                 $('#taskLabelModel').modal('show');
             } else {
-                alert("error");
+                alert("Error fetching task details");
             }
         }
     });
 }
 
+
+
 function taskLabelUpdate(id){
-   let name = $('#taskLabel_name').val();
+    let name = $('#taskLabel_name').val();
     let color = $('#taskLabel_color').val();
     if(name == ''){
         $('.needs-validation').addClass('was-validated');
@@ -262,3 +331,21 @@ function taskDelete(id) {
         }
     });
 }
+
+$(document).on('click', '#liveToastSuccessAlert a', function(e) {
+    e.preventDefault();
+    $.ajax({
+        url: undoTaskLabelPosition, // ✅ Your undo route
+        method: 'POST',
+        success: function(data) {
+            if (data.success) {
+                $('#task-label').DataTable().ajax.reload();
+                toastSuccessAlert(data.success);
+            } else if (data.error_success) {
+                toastErrorAlert(data.error_success);
+            } else {
+                toastErrorAlert('Something went wrong!');
+            }
+        }
+    });
+});

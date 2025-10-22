@@ -137,6 +137,7 @@ $.ajaxSetup({
 
 // toast success alert start---------
 function toastSuccessAlert(message){
+  $('.undo-btn').addClass('d-none');
   $('.toast-alert-success-msg').html('');
   $('.toast-alert-success-msg').html(message);
   var toastElement = document.getElementById('liveToastSuccessAlert');
@@ -162,3 +163,14 @@ function toastErrorAlert(message){
   toast.show();
 }
 // toast alert ends---------
+
+// toast alert undo starts
+function toastSuccessAlertUndo(message){
+  $('.undo-btn').removeClass('d-none');
+  $('.toast-alert-success-msg').html('');
+  $('.toast-alert-success-msg').html(message);
+  var toastElement = document.getElementById('liveToastSuccessAlert');
+  var toast = new bootstrap.Toast(toastElement);
+  toast.show();
+}
+// toast alert undo ends
