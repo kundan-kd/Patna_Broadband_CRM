@@ -355,6 +355,7 @@
               <ul class="sidebar-body-mainmenu custom-scrollbar"> 
                 <li><a href="{{route('admin-master-users')}}">Users</a></li>
                 <li><a href="{{route('admin-master-taskSetting')}}">Task Setting</a></li>
+                <li><a href="{{route('admin-master-customField.index')}}">Custom Field</a></li>
               </ul>
             </li>
             <li>

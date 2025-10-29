@@ -8,6 +8,98 @@
       </div>
     </div>
   </div>
+
+
+  <!-- Container-fluid starts-->
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Zero Configuration  Starts-->
+      <div class="col-sm-12">
+        <div class="card d-none" id="taskCategoryCard">
+          <div class="d-flex justify-content-between">
+              <h3 class="ms-3 mt-3">Custom Field Category</h3>
+              <div class="float-end me-3 mt-3">
+                      <button class="btn btn-primary px-2 taskCategoryAdd" type="button" data-bs-toggle="modal"
+                          data-bs-target="#taskCategoryModel"><span class="btn-icon"><i class="ri-add-line" style="font-size:14px;"></i></span>
+                          Add Category</button>
+              </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="display" id="task-category">
+                <thead>
+                  <tr>
+                    <th>Position</th>
+                    <th>Name</th>
+                    <th>Color</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Zero Configuration  Ends-->
+    </div>
+  </div>
+  <!-- Container-fluid Ends-->
+   <!-- Task Category modal start -->
+    <div class="modal fade" id="taskCategoryModel" tabindex="-1" role="dialog" aria-labelledby="taskCategoryModel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-toggle-wrapper  text-start dark-sign-up">
+                    <div class="modal-header">
+                        <h4 class="modal-title taskCategoryTitle">Add Custom FIeld Category</h4>
+                        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="" id="taskCategory_form" class="needs-validation" novalidate="">
+                        <div class="modal-body">
+                            <div class="col-md-12">
+                                <input type="hidden" id="taskCategory_id">
+                                <label class="form-label" for="taskCategory_name">Category Name</label>
+                                <input class="form-control form-control-sm" id="taskCategory_name" type="text" placeholder="Enter Custom Field Category Name" style="background-image: none;"
+                                    required>
+                                <div class="invalid-feedback">
+                                    Enter Custom Field Category Name
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt-2">
+                                <label class="form-label" for="taskCategory_color">Color</label>
+                                <input class="form-control form-control-sm" id="taskCategory_color" type="color" style="background-image: none;"
+                                    required>
+                                <div class="invalid-feedback">
+                                    Choose Color
+                                </div>
+                            </div>
+                        </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-outline-warning" type="button"
+                                    data-bs-dismiss="modal" onclick="resetmodel()">Cancel</button>
+                                <button class="btn btn-primary taskCategorySubmit" type="submit" disabled>Submit</button>
+                                <button class="btn btn-primary taskCategoryUpdate d-none" type="button"
+                                    onclick="taskCategoryUpdate(document.getElementById('taskCategory_id').value)" disabled>Update</button>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Task Category modal end-->
+
+
+
+
+
+
+
+
+
   <!-- Container-fluid starts-->
   <div class="container-fluid">
     <div class="row">
@@ -267,6 +359,17 @@
 @endsection        
 @section('extra-js')
 <script>
+    
+    const addTaskCategory = "{{route('admin-master-taskCategory-add')}}";
+    const viewTaskCategory = "{{route('admin-master-taskCategory-view')}}";
+    const taskCategoryPositionUpdate = "{{route('admin-master-taskCategory-positionUpdate')}}";
+    const taskCategorySwitch = "{{route('admin-master-taskCategory-switch')}}";
+    const getTaskCategoryDetails = "{{route('admin-master-taskCategory-getDetails')}}";
+    const updateTaskCategory = "{{route('admin-master-taskCategory-update')}}";
+    const deleteTaskCategory = "{{route('admin-master-taskCategory-delete')}}";
+    const undoTaskCategoryPosition = "{{route('undoTaskCategoryPosition')}}";
+
+    
     const addTaskLabel = "{{route('admin-master-taskLabel-add')}}";
     const viewTaskLabel = "{{route('admin-master-taskLabel-view')}}";
     const taskLabelPositionUpdate = "{{route('admin-master-taskLabel-positionUpdate')}}";
@@ -295,6 +398,7 @@
     const undoTaskPriorityPosition = "{{route('undoTaskPriorityPosition')}}";
 
 </script>
+    <script src="{{asset('backend/assets/js/custom/master/task-setting/task-category.js')}}"></script>
     <script src="{{asset('backend/assets/js/custom/master/task-setting/task-label.js')}}"></script>
     <script src="{{asset('backend/assets/js/custom/master/task-setting/task-status.js')}}"></script>
     <script src="{{asset('backend/assets/js/custom/master/task-setting/task-priority.js')}}"></script>

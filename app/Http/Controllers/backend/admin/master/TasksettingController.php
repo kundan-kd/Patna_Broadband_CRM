@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend\admin\master;
 
 use App\Http\Controllers\Controller;
+use App\Models\CustomFieldCategory;
 use App\Models\TaskLabel;
 use App\Models\TaskPriority;
 use App\Models\TaskStatus;
@@ -15,6 +16,149 @@ class TasksettingController extends Controller
     public function taskSetting(){
         return view('backend.admin.modules.master.task-settings');
     }
+
+      public function taskCategoryView(Request $request){
+        if($request->ajax()){
+            $TaskCategory = CustomFieldCategory::orderBy('position', 'asc')->get();
+            return DataTables::of($TaskCategory)
+            ->addIndexColumn()
+            ->addColumn('name',function($row){
+                return $row->name;
+            })
+            ->addColumn('color', function($row) {
+                return '<span class="badge text-white" style="background:' . $row->color . ';">' . $row->color . '</span>';
+            })
+            ->addColumn('status',function($row){
+                $visibility = $row->id == 1 ? 'd-none':'';
+                $checked = $row->status =='1' ? 'checked' : ''; // check if status is active then checked
+                 return '<div class="flex-grow-1 icon-state switch-outline '.$visibility.'">
+                      <label class="switch mb-0" onchange="taskCateSwitch('.$row->id.')">
+                      <input type="checkbox" '.$checked.'><span class="switch-state bg-success"></span>
+                      </label>
+                    </div>';
+            })
+            ->addColumn('action',function($row){
+                $visibility = $row->id == 1 ? 'd-none':'';
+                return '<ul class="action"> 
+                        <li class="edit"> <a href="#"><i class="icon-pencil-alt '.$visibility.'" onclick="taskCategoryEdit('.$row->id.')"></i></a></li>
+                        <li class="delete ms-1"><a href="#"><i class="icon-trash '.$visibility.'" onclick="taskCategoryDelete('.$row->id.')"></i></a></li>
+                        </ul>';
+            })
+            ->rawColumns(['color','status','action'])
+            ->make(true);
+        }
+    }
+    public function taskCategoryAdd(Request $request){
+        $validator = Validator::make($request->all(),[
+            'name' => 'required',
+            'color' => 'nullable'
+        ]);
+        if($validator->fails()){
+            return response()->json(['error_validation'=> $validator->errors()->all(),],422);
+        }
+        $exists = CustomFieldCategory::where('name',$request->name)->exists();
+        if(!$exists){
+            $task_label = new CustomFieldCategory();
+            $task_label->name = $request->name;
+            $task_label->color = $request->color;
+            $task_label->color_history = $request->color;
+            if($task_label->save()){
+                return response()->json(['success' => 'Custom Field Category addedd successfully'],200);
+            }else{
+                return response()->json(['error_success' => 'Custom Field Category not added']);
+            }
+        }else{
+           return response()->json(['already_found' => 'This Custom Field Category already exists.']);
+        }
+        
+    }
+    public function taskCategoryPositionUpdate(Request $request){
+        $prePosition = CustomFieldCategory::orderBy('id', 'asc')->pluck('position', 'id')->toArray();
+        session(['previous_task_label_positions' => $prePosition]); // ✅ Store in session
+
+        $order = $request->order;
+        foreach ($order as $item) {
+            $ids = $item['id'];
+            $positions = $item['position'];
+            $update = CustomFieldCategory::where('id', $ids)->update(
+                [
+                    'position' => $positions
+                ]
+            );
+        }
+        if ($update == 1) {
+            $response = response()->json(['success' => 'Position updated successfully']);
+        } else {
+            $response = response()->json(['error_success' => 'Position not updated']);
+        }
+        return $response;
+    }
+
+    public function undoTaskCategoryPosition()
+    {
+        $previous = session('previous_task_label_positions');
+        if ($previous && is_array($previous)) {
+            foreach ($previous as $id => $position) {
+                CustomFieldCategory::where('id', $id)->update(['position' => $position]);
+            }
+            return response()->json(['success' => 'Undo successful']);
+        }
+        return response()->json(['error_success' => 'No previous position found']);
+    }
+
+    public function taskCategoryswitch(Request $request){
+        $sstatus = CustomFieldCategory::where('id',$request->id)->get(['status']);
+        $status = $sstatus[0]->status;
+        if($status == 1){
+            $new_status = 0;
+        }
+        else{
+            $new_status = 1;
+        }
+        CustomFieldCategory::where('id',$request->id)->update([
+            'status' => $new_status
+        ]);
+        return response()->json(['success' => 'Status Updated Successfully'],200);
+    }
+
+    public function taskCategoryGetDetails(Request $request){
+        $getData = CustomFieldCategory::where('id',$request->id)->get(['id','name','color','color_history']);
+        return response()->json(['success' => 'Data Fetched Successfully','getData'=>$getData],200);
+    }
+
+    public function taskCategoryUpdate(Request $request)
+    {
+        $exists = CustomFieldCategory::where('name', $request->name)->where('id', '!=', $request->id) ->exists();
+        if ($exists) {
+            return response()->json(['already_found' => 'This Task label already exists.']);
+        }
+        $label = CustomFieldCategory::find($request->id);
+        if (!$label) {
+            return response()->json(['error' => 'Task Label not found.'], 404);
+        }
+        $originalColor = $label->color;
+        $label->name = $request->name;
+        $label->color = $request->color;
+        if ($originalColor !== $request->color) {
+            $history = explode(',', $label->color_history ?? '');
+            $history = array_filter(array_unique($history), fn($c) => $c !== $request->color);
+            array_unshift($history, $request->color);
+            $label->color_history = implode(',', array_slice($history, 0, 4));
+        }
+        if ($label->save()) {
+            return response()->json(['success' => 'Task Label updated successfully'], 200);
+        }
+        return response()->json(['error_success' => 'Task Label not updated']);
+    }
+    public function taskCategoryDelete(Request $request){
+        $delete = CustomFieldCategory::where('id',$request->id)->delete();
+        if($delete){
+            return response()->json(['success' => 'Task Label deleted successfully'],200);
+        }else{
+             return response()->json(['error_success' => 'Task Label not deleted']);
+        }
+    }
+
     public function taskLabelView(Request $request){
         if($request->ajax()){
             $TaskLabel = TaskLabel::orderBy('position', 'asc')->get();

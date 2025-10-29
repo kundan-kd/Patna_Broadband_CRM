@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\admin\master\CustomfieldController;
 use App\Http\Controllers\backend\admin\master\TasksettingController;
 use App\Http\Controllers\backend\admin\master\UserController;
 use App\Http\Controllers\backend\auth\AuthController;
@@ -41,6 +42,15 @@ Route::middleware(['prevent-back', 'prevent-back-history'])->group(function(){
     Route::post('/task-label/undo-position', [TasksettingController::class, 'undoTaskLabelPosition'])->name('undoTaskLabelPosition');
 
 
+    Route::post('/custom-field-category-view',[TasksettingController::class,'taskCategoryView'])->name('admin-master-taskCategory-view');
+    Route::post('/custom-field-category-add',[TasksettingController::class,'taskCategoryAdd'])->name('admin-master-taskCategory-add');
+    Route::post('/custom-field-category-position',[TasksettingController::class,'taskCategoryPositionUpdate'])->name('admin-master-taskCategory-positionUpdate');
+    Route::post('/custom-field-category-switch',[TasksettingController::class,'taskCategorySwitch'])->name('admin-master-taskCategory-switch');
+    Route::post('/custom-field-category-details',[TasksettingController::class,'taskCategoryGetDetails'])->name('admin-master-taskCategory-getDetails');
+    Route::post('/custom-field-category-update',[TasksettingController::class,'taskCategoryUpdate'])->name('admin-master-taskCategory-update');
+    Route::post('/custom-field-category-delete',[TasksettingController::class,'taskCategoryDelete'])->name('admin-master-taskCategory-delete');
+    Route::post('/custom-field-category/undo-position', [TasksettingController::class, 'undoTaskCategoryPosition'])->name('undoTaskCategoryPosition');
+
     Route::post('/task-status-view',[TasksettingController::class,'taskStatusView'])->name('admin-master-taskStatus-view');
     Route::post('/task-status-add',[TasksettingController::class,'taskStatusAdd'])->name('admin-master-taskStatus-add');
     Route::post('/task-status-position',[TasksettingController::class,'taskStatusPositionUpdate'])->name('admin-master-taskSetting-positionUpdate');
@@ -57,6 +67,18 @@ Route::middleware(['prevent-back', 'prevent-back-history'])->group(function(){
     Route::post('/task-priority-details',[TasksettingController::class,'taskPriorityGetDetails'])->name('admin-master-taskPriority-getDetails');
     Route::post('/task-priority-update',[TasksettingController::class,'taskPriorityUpdate'])->name('admin-master-taskPriority-update');
     Route::post('/task-priority-delete',[TasksettingController::class,'taskPriorityDelete'])->name('admin-master-taskPriority-delete');
-     Route::post('/task-priority/undo-position', [TasksettingController::class, 'undoTaskPriorityPosition'])->name('undoTaskPriorityPosition');
+    Route::post('/task-priority/undo-position', [TasksettingController::class, 'undoTaskPriorityPosition'])->name('undoTaskPriorityPosition');
+
+    Route::get('/custom-field', [CustomfieldController::class, 'index'])->name('admin-master-customField.index');
+    Route::post('/custom-field/store', [CustomFieldController::class, 'store'])->name('admin-master-customField.store');
+    Route::post('/custom-field/view', [CustomFieldController::class, 'view'])->name('admin-master-customField.view');
+    Route::post('/custom-field/positionUpdate', [CustomFieldController::class, 'positionUpdate'])->name('admin-master-customField.positionUpdate');
+    Route::post('/custom-field/undoPosition', [CustomFieldController::class, 'undoPosition'])->name('admin-master-customField.undoPosition');
+    Route::post('/custom-field/switch', [CustomFieldController::class, 'switch'])->name('admin-master-customField.switch');
+    Route::post('/custom-field/get-details', [CustomFieldController::class, 'getDetails'])->name('admin-master-customField.getDetails');
+    Route::post('/custom-field/get-update', [CustomFieldController::class, 'update'])->name('admin-master-customField.update');
+    Route::post('/custom-field/get-delete', [CustomFieldController::class, 'delete'])->name('admin-master-customField.delete');
+
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
