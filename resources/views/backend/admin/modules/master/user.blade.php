@@ -2,25 +2,18 @@
 @section('title','Users')
 @section('main-container')
 <div class="page-body">
-          <div class="container-fluid">
-            <div class="page-title">
-              <div class="row">
-                <div class="col-12 col-sm-6 p-0">
-                  <h3>Users</h3>
-                </div>
-                <div class="col-12 col-sm-6 p-0">
-                  <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">                                       
-                        <svg class="stroke-icon">
-                          <use href="{{asset('backend/assets/svg/icon-sprite.svg#breadcrumb-home')}}"></use>
-                        </svg></a></li>
-                    <li class="breadcrumb-item">Master</li>
-                    <li class="breadcrumb-item active">User</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
-          </div>
+  <div class="container-fluid">
+    <div class="page-title">
+      <div class="row align-items-center">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">Admin Users</h3>
+          {{-- <button class="btn btn-primary px-2 waiter_add" type="button" data-bs-toggle="modal" data-bs-target="#waiterModel">
+            <span class="btn-icon"><i class="ri-add-line"></i></span> Add User
+          </button> --}}
+        </div>
+      </div>
+    </div>
+  </div>
           <!-- Container-fluid starts-->
           <div class="container-fluid">
             <div class="row">
@@ -28,7 +21,7 @@
               <div class="col-sm-12">
                 <div class="card">
                   <div class="card-header pb-0 card-no-border">
-                    <h3>Admin Users</h3>
+                    {{-- <h3>Admin Users</h3> --}}
                   </div>
                   <div class="card-body">
                     <div class="table-responsive">

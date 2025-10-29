@@ -93,7 +93,7 @@ class CustomfieldController extends Controller
             'type' => 'required|string',
             'location' => 'required|string',
             'category' => 'required|string',
-            'class' => 'required|string',
+            'class' => 'nullable',
             'is_required' => 'nullable|boolean',
         ]);
 

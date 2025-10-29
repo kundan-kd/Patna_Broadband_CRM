@@ -109,7 +109,7 @@
                   <option data-name="Checkbox" value="checkbox">Checkbox</option>
                   <option data-name="Radio" value="radio">Radio</option>
                   <option data-name="Switch Button" value="switch">Switch</option>
-                  <option data-name="Upload Files" value="files">Upload Files</option>
+                  <option data-name="Upload Files" value="file">Upload Files</option>
                   <option data-name="Date Picker" value="date">Date Picker</option>
                   <option data-name="Color Picker" value="color">Color Picker</option>
                   <option data-name="Hyperlink" value="link">Hyperlink</option>
@@ -120,6 +120,7 @@
               <div class="col-md-12 mb-3 d-none custom-location">
                 <label class="form-label" for="custom_field_location">Task Custom Field Location</label>
                 <select class="form-select form-select-sm" id="custom_field_location" style="background-image: none;" required>
+                   <option value="">Select Location</option>
                   <option value="creation">Task Creation</option>
                   <option value="submission">Task Submission</option>
                   <option value="both">Both</option>
@@ -130,27 +131,28 @@
               <div class="col-md-12 mb-3 d-none custom-category">
                 <label class="form-label" for="custom_field_category">Task Custom Field Category</label>
                 <select class="form-select form-select-sm" id="custom_field_category" style="background-image: none;" required>
-                  <option value="general">General</option>
+                  <option value="general" selected>General</option>
                 </select>
                 <div class="invalid-feedback">Select Custom Field Category</div>
               </div>
 
               <div class="col-md-12 mb-3">
                 <label class="form-label" for="custom_field_class">Custom Class</label>
-                <input class="form-control form-control-sm" id="custom_field_class" type="text" placeholder="Enter Custom Field Class" style="background-image: none;" required>
+                <input class="form-control form-control-sm" id="custom_field_class" type="text" placeholder="Enter Custom Field Class" style="background-image: none;">
                 <div class="invalid-feedback">Enter Custom Field Class</div>
               </div>
 
-              <div class="row">
-                <div class="col-md-6 mt-2 d-flex align-items-center">
-                  <label class="form-label mb-0">Is Required</label>
-                </div>
-                <div class="col-md-6 mt-2 d-flex align-items-right">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="is_required_checkbox">
-                  </div>
+             <div class="row">
+              <div class="col-md-6 mt-2">
+                <label class="form-label mb-0">Is Required</label>
+              </div>
+              <div class="col-md-6 mt-2 d-flex justify-content-end align-items-center">
+                <div class="form-check mb-0">
+                  <input class="form-check-input" type="checkbox" id="is_required_checkbox">
                 </div>
               </div>
+            </div>
+
             </div>
 
             <div class="modal-footer">

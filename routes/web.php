@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\backend\admin\master\CustomfieldController;
+use App\Http\Controllers\backend\admin\master\TaskController;
 use App\Http\Controllers\backend\admin\master\TasksettingController;
 use App\Http\Controllers\backend\admin\master\UserController;
 use App\Http\Controllers\backend\auth\AuthController;
@@ -78,6 +79,11 @@ Route::middleware(['prevent-back', 'prevent-back-history'])->group(function(){
     Route::post('/custom-field/get-details', [CustomFieldController::class, 'getDetails'])->name('admin-master-customField.getDetails');
     Route::post('/custom-field/get-update', [CustomFieldController::class, 'update'])->name('admin-master-customField.update');
     Route::post('/custom-field/get-delete', [CustomFieldController::class, 'delete'])->name('admin-master-customField.delete');
+
+    Route::get('/task', [TaskController::class, 'index'])->name('admin-master-task.index');
+    Route::post('/task-add', [TaskController::class, 'add'])->name('admin-master-task.add');
+
+
 
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

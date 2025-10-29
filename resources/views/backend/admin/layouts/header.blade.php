@@ -356,6 +356,7 @@
                 <li><a href="{{route('admin-master-users')}}">Users</a></li>
                 <li><a href="{{route('admin-master-taskSetting')}}">Task Setting</a></li>
                 <li><a href="{{route('admin-master-customField.index')}}">Custom Field</a></li>
+                <li><a href="{{route('admin-master-task.index')}}">Task</a></li>
               </ul>
             </li>
             <li>

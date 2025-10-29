@@ -134,8 +134,11 @@ $('#custom_field_form').on('submit', function (e) {
     is_required: isRequired,
     _token: $('meta[name="csrf-token"]').attr('content')
   };
-  // Check for empty fields
-  let hasEmpty = Object.values(formData).some(value => value === '');
+// Check for empty fields except 'class'
+let hasEmpty = Object.entries(formData).some(([key, value]) => {
+  return key !== 'class' && value === '';
+});
+
 
   if (hasEmpty) {
     $('.needs-validation').addClass('was-validated');
