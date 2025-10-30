@@ -75,12 +75,12 @@ $('#taskForm').on('submit', function (e) {
         data: formData,
         success: function (response) {
             if (response.success) {
-                alert(response.success);
+                toastSuccessAlert(response.success);
                 $('#taskForm')[0].reset();
                 $('.needs-validation').removeClass('was-validated');
                 $('.is-invalid').removeClass('is-invalid');
             } else {
-                alert('Error submitting task');
+                toastErrorAlert(response.success);
             }
         },
         error: function (xhr) {

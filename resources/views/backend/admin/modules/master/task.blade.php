@@ -76,78 +76,87 @@
           </div>
           <div class="card-body">
             <div class="card-wrapper border rounded-3 p-3">
-              <div class="row g-3">
-                   @foreach ($custom_field as $fields)
+             <div class="row g-3">
+              @foreach ($custom_field as $fields)
                 @if($fields->location == 'creation' || $fields->location == 'both')
-                <div class="col-md-12">
-                    <label class="form-label" for="task_custom_{{ $loop->index }}">{{ $fields->name }} {!! $fields->is_required == 1 ? ' <span class="text-danger">*</span>' : '' !!}</label>
-
+                  <div class="col-md-12">
                     @if($fields->type == 'textarea')
-                    <textarea class="form-control" id="task_custom_{{ $loop->index }}" placeholder="{{ $fields->placeholder }}" style="background-image:none;" {{ $fields->is_required == 1 ? 'required' : '' }}></textarea>
-                    @else
-                    <input class="form-control" id="task_custom_{{ $loop->index }}" type="{{ $fields->type }}" placeholder="{{ $fields->placeholder }}" style="background-image:none;" {{ $fields->is_required == 1 ? 'required' : '' }}>
-                    @endif
+                      <label class="form-label" for="task_custom_{{ $loop->index }}">
+                        {{ $fields->name }} {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
+                      </label>
+                      <textarea class="form-control" id="task_custom_{{ $loop->index }}" name="task_custom_{{ $loop->index }}"
+                        placeholder="{{ $fields->placeholder }}" style="background-image:none;"
+                        {{ $fields->is_required == 1 ? 'required' : '' }}></textarea>
 
-                </div>
+                    @elseif($fields->type == 'checkbox')
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="task_custom_{{ $loop->index }}"
+                          name="task_custom_{{ $loop->index }}" {{ $fields->is_required == 1 ? 'required' : '' }}>
+                        <label class="form-check-label ms-1" for="task_custom_{{ $loop->index }}">
+                          {{ $fields->name }} {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
+                        </label>
+                      </div>
+
+                    @else
+                      <label class="form-label" for="task_custom_{{ $loop->index }}">
+                        {{ $fields->name }} {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
+                      </label>
+                      <input class="form-control" id="task_custom_{{ $loop->index }}" name="task_custom_{{ $loop->index }}"
+                        type="{{ $fields->type }}" placeholder="{{ $fields->placeholder }}" style="background-image:none;"
+                        {{ $fields->is_required == 1 ? 'required' : '' }}>
+                    @endif
+                  </div>
                 @endif
-            @endforeach
-              </div>
+              @endforeach
+            </div>
             </div>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-header card-no-border pb-0">
-            <h4>Allow Custom Fields For Task Submission</h4>
-          </div>
-        <div class="card-body">
-        <div class="card-wrapper border rounded-3 p-3">
-           <div class="row g-3">
-  @foreach ($custom_field as $fields)
-    @if($fields->location == 'submission' || $fields->location == 'both')
-      <div class="col-md-12">
-        @if($fields->type == 'textarea')
-          <textarea
-            class="form-control"
-            id="task_custom_{{ $loop->index }}"
-            name="task_custom_{{ $loop->index }}"
-            placeholder="{{ $fields->placeholder }}"
-            style="background-image:none;"
-            {{ $fields->is_required == 1 ? 'required' : '' }}
-          ></textarea>
+    <div class="card">
+  <div class="card-header card-no-border pb-0">
+    <h4>Allow Custom Fields For Task Submission</h4>
+  </div>
 
-        @elseif($fields->type == 'checkbox')
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="task_custom_{{ $loop->index }}"
-              name="task_custom_{{ $loop->index }}"
-              {{ $fields->is_required == 1 ? 'required' : '' }}
-            >
-            <label class="form-check-label ms-1" for="task_custom_{{ $loop->index }}">
-              {{ $fields->name }} {!! $fields->is_required == 1 ? ' <span class="text-danger">*</span>' : '' !!}
-            </label>
-          </div>
+  <div class="card-body">
+    <div class="card-wrapper border rounded-3 p-3">
+      <div class="row g-3">
+        @foreach ($custom_field as $fields)
+          @if($fields->location == 'submission' || $fields->location == 'both')
+            <div class="col-md-12">
+              @if($fields->type == 'textarea')
+                <label class="form-label" for="task_custom_{{ $loop->index }}">
+                  {{ $fields->name }}
+                  {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
+                </label>
+                <textarea class="form-control" id="task_custom_{{ $loop->index }}" name="task_custom_{{ $loop->index }}" placeholder="{{ $fields->placeholder }}"
+                  style="background-image:none;" {{ $fields->is_required == 1 ? 'required' : '' }}></textarea>
 
-        @else
-          <input
-            class="form-control"
-            id="task_custom_{{ $loop->index }}"
-            name="task_custom_{{ $loop->index }}"
-            type="{{ $fields->type }}"
-            placeholder="{{ $fields->placeholder }}"
-            style="background-image:none;"
-            {{ $fields->is_required == 1 ? 'required' : '' }}
-          >
-        @endif
+              @elseif($fields->type == 'checkbox')
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="task_custom_{{ $loop->index }}" name="task_custom_{{ $loop->index }}"
+                    {{ $fields->is_required == 1 ? 'required' : '' }} >
+                  <label class="form-check-label ms-1" for="task_custom_{{ $loop->index }}">
+                    {{ $fields->name }}
+                    {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
+                  </label>
+                </div>
+
+              @else
+                <label class="form-label" for="task_custom_{{ $loop->index }}">
+                  {{ $fields->name }}
+                  {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
+                </label>
+                <input class="form-control" id="task_custom_{{ $loop->index }}" name="task_custom_{{ $loop->index }}" type="{{ $fields->type }}"
+                  placeholder="{{ $fields->placeholder }}" style="background-image:none;" {{ $fields->is_required == 1 ? 'required' : '' }}>
+              @endif
+            </div>
+          @endif
+        @endforeach
       </div>
-    @endif
-  @endforeach
+    </div>
+  </div>
 </div>
-        </div>
-        </div>
-        </div>
       </div>
 
       <!-- Unified Submit Button -->

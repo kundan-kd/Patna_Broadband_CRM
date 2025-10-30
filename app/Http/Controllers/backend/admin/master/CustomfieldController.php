@@ -88,23 +88,23 @@ class CustomfieldController extends Controller
 
     public function store(Request $request){
         $request->validate([
-            'name' => 'required|string|max:255',
-            'placeholder' => 'required|string|max:255',
-            'type' => 'required|string',
-            'location' => 'required|string',
-            'category' => 'required|string',
+            'name' => 'required',
+            'placeholder' => 'nullable',
+            'type' => 'required',
+            'location' => 'required',
+            'category' => 'required',
             'class' => 'nullable',
             'is_required' => 'nullable|boolean',
         ]);
 
         // Check if the type already exists
-        $existingType = CustomField::where('type', $request->type)->first();
+        // $existingType = CustomField::where('type', $request->type)->first();
 
-        if ($existingType) {
-            return response()->json([
-                'already_found' => 'This custom field type already exists.'
-            ]); // 409 Conflict
-        }
+        // if ($existingType) {
+        //     return response()->json([
+        //         'already_found' => 'This custom field type already exists.'
+        //     ]); // 409 Conflict
+        // }
 
         // Create new custom field
         $customField = new CustomField();

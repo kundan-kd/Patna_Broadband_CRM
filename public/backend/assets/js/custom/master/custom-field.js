@@ -118,6 +118,43 @@ $(document).on('click', '#liveToastSuccessAlert a', function(e) {
     });
 });
 
+function selectFieldType(type){
+    $('#custom_field_type').prop('disabled',false).empty();
+    if(type == 'text'){
+        $('#custom_field_type').append(`<option data-name="Input" value="">Select</option>
+            <option data-name="Input" value="input">Input</option>
+            <option data-name="Number" value="number">Number</option>
+            <option data-name="Textarea" value="textarea">Textarea</option>
+            <option data-name="Hyperlink" value="link">Hyperlink</option>`);
+    }else if(type == 'media'){
+        $('#custom_field_type').append(`<option data-name="Input" value="">Select</option>
+            <option data-name="Upload Files" value="file">Upload Files</option>`);
+    }else if(type == 'select'){
+         $('#custom_field_type').append(`<option data-name="Input" value="">Select</option>
+            <option data-name="Select" value="select">Select</option>
+            <option data-name="Checkbox" value="checkbox">Checkbox</option>
+            <option data-name="Radio" value="radio">Radio</option>
+            <option data-name="Switch Button" value="switch">Switch</option>
+            <option data-name="Date Picker" value="date">Date Picker</option>
+            <option data-name="Color Picker" value="color">Color Picker</option>`);
+   }else{
+    $('#custom_field_type').append(`<option disabled selected value="">No custom field types available</option>`);
+}
+   
+}
+function fieldTypeData(data){
+    
+}
+
+
+
+
+
+
+
+
+
+
 
 
 $('#custom_field_form').on('submit', function (e) {
@@ -136,7 +173,7 @@ $('#custom_field_form').on('submit', function (e) {
   };
 // Check for empty fields except 'class'
 let hasEmpty = Object.entries(formData).some(([key, value]) => {
-  return key !== 'class' && value === '';
+  return key !== 'class' && key !== 'placeholder' && value === '';
 });
 
 
@@ -216,6 +253,8 @@ function editCustomField(id) {
 
                 // Update modal title and buttons
                 $('.customFieldTitle').html('Update Custom Field');
+                $('.custom-location').removeClass('d-none');
+                $('.custom-category').removeClass('d-none');
                 $('.customFieldSubmit').addClass('d-none');
                 $('.customFieldUpdate').removeClass('d-none').prop('disabled', false);
 

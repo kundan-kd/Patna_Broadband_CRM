@@ -1,7 +1,11 @@
 @extends('backend.admin.layouts.main')
 
 @section('title','Custom Field')
+@section('extra-css')
+<style>
 
+</style>
+@endsection
 @section('main-container')
 <div class="page-body">
   <div class="container-fluid">
@@ -94,15 +98,31 @@
 
               <div class="col-md-12 mb-3">
                 <label class="form-label" for="custom_field_place_holder">Field Placeholder</label>
-                <input class="form-control form-control-sm" id="custom_field_place_holder" type="text" placeholder="Enter Custom Field Placeholder" style="background-image: none;" required>
+                <input class="form-control form-control-sm" id="custom_field_place_holder" type="text" placeholder="Enter Custom Field Placeholder" style="background-image: none;">
                 <div class="invalid-feedback">Enter Custom Field Placeholder</div>
               </div>
 
+
+
+
+
+
+
+              <div class="col-md-12 mb-3">
+                <label class="form-label" for="custom_field">Select Custom Field</label>
+                <select class="form-select form-select-sm" id="custom_field" style="background-image: none;" onchange="selectFieldType(this.value)" required>
+                  <option value="">Select Custom Field Type</option>
+                  <option value="text">Text</option>
+                  <option value="media">Media</option>
+                  <option value="select">Selection</option>
+                </select>
+                
+              </div>
               <div class="col-md-12 mb-3">
                 <label class="form-label" for="custom_field_type">Task Custom Field Type</label>
-                <select class="form-select form-select-sm" id="custom_field_type" style="background-image: none;" required>
+                <select class="form-select form-select-sm" id="custom_field_type" style="background-image: none;" onchange="fieldTypeData(this.value)" required>
                   <option value="">Select Custom Field Type</option>
-                  <option data-name="Input" value="input">Input</option>
+                  {{-- <option data-name="Input" value="input">Input</option>
                   <option data-name="Number" value="number">Number</option>
                   <option data-name="Textarea" value="textarea">Textarea</option>
                   <option data-name="Select" value="select">Select</option>
@@ -112,15 +132,28 @@
                   <option data-name="Upload Files" value="file">Upload Files</option>
                   <option data-name="Date Picker" value="date">Date Picker</option>
                   <option data-name="Color Picker" value="color">Color Picker</option>
-                  <option data-name="Hyperlink" value="link">Hyperlink</option>
+                  <option data-name="Hyperlink" value="link">Hyperlink</option> --}}
                 </select>
                 <div class="invalid-feedback">Please select a Custom Field Type</div>
               </div>
 
+
+              <div class="col-md-12 mb-3 d-none1 custom-select-data">
+                <label class="form-label" for="custom_field_option">Task Custom Field Option Data</label>
+               <div class="d-flex align-items-center gap-2">
+                <input class="form-control form-control-sm " id="custom_field_option" style="background-image: none;">
+                <i class="icon-trash text-danger me-4" id="delete_option" title="Delete" style="cursor: pointer;"></i>
+              </div>
+                   
+                <div class="invalid-feedback">Select Custom Field Location</div>
+              </div>
+
+              
+
               <div class="col-md-12 mb-3 d-none custom-location">
                 <label class="form-label" for="custom_field_location">Task Custom Field Location</label>
                 <select class="form-select form-select-sm" id="custom_field_location" style="background-image: none;" required>
-                   <option value="">Select Location</option>
+                   <option value="">Select</option>
                   <option value="creation">Task Creation</option>
                   <option value="submission">Task Submission</option>
                   <option value="both">Both</option>
@@ -131,6 +164,7 @@
               <div class="col-md-12 mb-3 d-none custom-category">
                 <label class="form-label" for="custom_field_category">Task Custom Field Category</label>
                 <select class="form-select form-select-sm" id="custom_field_category" style="background-image: none;" required>
+                  <option value="">Select</option>
                   <option value="general" selected>General</option>
                 </select>
                 <div class="invalid-feedback">Select Custom Field Category</div>
@@ -144,7 +178,7 @@
 
              <div class="row">
               <div class="col-md-6 mt-2">
-                <label class="form-label mb-0">Is Required</label>
+                <label class="form-label mb-0">Is Required ?</label>
               </div>
               <div class="col-md-6 mt-2 d-flex justify-content-end align-items-center">
                 <div class="form-check mb-0">
