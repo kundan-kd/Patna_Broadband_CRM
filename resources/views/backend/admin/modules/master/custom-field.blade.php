@@ -40,7 +40,7 @@
           <div class="d-flex justify-content-between">
             <h3 class="ms-3 mt-3">Custom Fields</h3>
             <div class="float-end me-3 mt-3">
-              <button class="btn btn-primary px-2 customFieldAdd" type="button" data-bs-toggle="modal" data-bs-target="#customFieldModel">
+              <button class="btn btn-primary px-2 customFieldAdd" type="button" data-bs-toggle="modal" data-bs-target="#customFieldModel" onclick="resetData()">
                 <span class="btn-icon"><i class="ri-add-line" style="font-size:14px;"></i></span> Add Custom Field
               </button>
             </div>
@@ -57,7 +57,6 @@
                     <th>Type</th>
                     <th>Location</th>
                     <th>Category</th>
-                    <th>Class</th>
                     <th>Is Required</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -78,7 +77,7 @@
 
   <!-- Task Category modal start -->
   <div class="modal fade" id="customFieldModel" tabindex="-1" role="dialog" aria-labelledby="customFieldModel" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog" style="width: 400px;" role="document">
       <div class="modal-content">
         <div class="modal-toggle-wrapper text-start dark-sign-up">
           <div class="modal-header">
@@ -91,15 +90,15 @@
               <input type="hidden" id="custom_field_id">
 
               <div class="col-md-12 mb-3">
-                <label class="form-label" for="custom_field_name">Task Custom Field Name</label>
+                <label class="form-label" for="custom_field_name">Field Name</label>
                 <input class="form-control form-control-sm" id="custom_field_name" type="text" placeholder="Enter Custom Field Name" style="background-image: none;" required>
-                <div class="invalid-feedback">Enter Custom Field Name</div>
+                {{-- <div class="invalid-feedback">Enter Custom Field Name</div> --}}
               </div>
 
               <div class="col-md-12 mb-3">
-                <label class="form-label" for="custom_field_place_holder">Field Placeholder</label>
+                <label class="form-label" for="custom_field_place_holder">Placeholder</label>
                 <input class="form-control form-control-sm" id="custom_field_place_holder" type="text" placeholder="Enter Custom Field Placeholder" style="background-image: none;">
-                <div class="invalid-feedback">Enter Custom Field Placeholder</div>
+                {{-- <div class="invalid-feedback">Enter Custom Field Placeholder</div> --}}
               </div>
 
 
@@ -111,17 +110,19 @@
               <div class="col-md-12 mb-3">
                 <label class="form-label" for="custom_field">Select Custom Field</label>
                 <select class="form-select form-select-sm" id="custom_field" style="background-image: none;" onchange="selectFieldType(this.value)" required>
-                  <option value="">Select Custom Field Type</option>
+                  <option value="">Select</option>
                   <option value="text">Text</option>
                   <option value="media">Media</option>
                   <option value="select">Selection</option>
+                  <option value="link">Link</option>
                 </select>
+                {{-- <div class="invalid-feedback"> Select Field Type</div> --}}
                 
               </div>
-              <div class="col-md-12 mb-3">
-                <label class="form-label" for="custom_field_type">Task Custom Field Type</label>
+              <div class="col-md-12 mb-3 d-none custom-field-type">
+                <label class="form-label" for="custom_field_type">Custom Field Type</label>
                 <select class="form-select form-select-sm" id="custom_field_type" style="background-image: none;" onchange="fieldTypeData(this.value)" required>
-                  <option value="">Select Custom Field Type</option>
+                  <option value="">Select</option>
                   {{-- <option data-name="Input" value="input">Input</option>
                   <option data-name="Number" value="number">Number</option>
                   <option data-name="Textarea" value="textarea">Textarea</option>
@@ -134,57 +135,56 @@
                   <option data-name="Color Picker" value="color">Color Picker</option>
                   <option data-name="Hyperlink" value="link">Hyperlink</option> --}}
                 </select>
-                <div class="invalid-feedback">Please select a Custom Field Type</div>
+                {{-- <div class="invalid-feedback">Please select a Custom Field Type</div> --}}
               </div>
 
 
-              <div class="col-md-12 mb-3 d-none1 custom-select-data">
-                <label class="form-label" for="custom_field_option">Task Custom Field Option Data</label>
-               <div class="d-flex align-items-center gap-2">
-                <input class="form-control form-control-sm " id="custom_field_option" style="background-image: none;">
-                <i class="icon-trash text-danger me-4" id="delete_option" title="Delete" style="cursor: pointer;"></i>
+              <div class="col-md-12 mb-3 d-none custom-select-option">
+                <label class="form-label" for="custom_field_option">Field Data</label>
+                <div class="d-flex align-items-center gap-2 edit-append">
+                  <input class="form-control form-control-sm me-1 primary-option" name="custom_field_option[]" style="background-image: none;" placeholder="Enter Field Type Data">
+                  <i class="fa fa-plus-square-o" aria-hidden="true" title="Add More" style="cursor: pointer;color: #5378f1; font-size: 20px; font-weight: 100; opacity: 0.7;" onclick="addMore()"></i>
+                </div>
+                {{-- <div class="invalid-feedback">Select Custom Field Location</div> --}}
               </div>
-                   
-                <div class="invalid-feedback">Select Custom Field Location</div>
-              </div>
-
               
 
               <div class="col-md-12 mb-3 d-none custom-location">
-                <label class="form-label" for="custom_field_location">Task Custom Field Location</label>
+                <label class="form-label" for="custom_field_location">Field Location</label>
                 <select class="form-select form-select-sm" id="custom_field_location" style="background-image: none;" required>
                    <option value="">Select</option>
                   <option value="creation">Task Creation</option>
                   <option value="submission">Task Submission</option>
                   <option value="both">Both</option>
                 </select>
-                <div class="invalid-feedback">Select Custom Field Location</div>
+                {{-- <div class="invalid-feedback">Select Custom Field Location</div> --}}
               </div>
 
               <div class="col-md-12 mb-3 d-none custom-category">
-                <label class="form-label" for="custom_field_category">Task Custom Field Category</label>
+                <label class="form-label" for="custom_field_category">Field Category</label>
                 <select class="form-select form-select-sm" id="custom_field_category" style="background-image: none;" required>
                   <option value="">Select</option>
                   <option value="general" selected>General</option>
                 </select>
-                <div class="invalid-feedback">Select Custom Field Category</div>
+                {{-- <div class="invalid-feedback">Select Custom Field Category</div> --}}
               </div>
 
-              <div class="col-md-12 mb-3">
+              {{-- <div class="col-md-12 mb-3">
                 <label class="form-label" for="custom_field_class">Custom Class</label>
                 <input class="form-control form-control-sm" id="custom_field_class" type="text" placeholder="Enter Custom Field Class" style="background-image: none;">
                 <div class="invalid-feedback">Enter Custom Field Class</div>
-              </div>
+              </div> --}}
 
              <div class="row">
-              <div class="col-md-6 mt-2">
-                <label class="form-label mb-0">Is Required ?</label>
+               <div class="form-check form-switch mb-0 ms-3">
+                  <input class="form-check-input" type="checkbox" role="switch" id="is_required_checkbox">
+                {{-- </div>
+              <div class="col-md-6 mt-2"> --}}
+                <label class="form-label mb-0 ms-1">This Field Is Required ?</label>
               </div>
-              <div class="col-md-6 mt-2 d-flex justify-content-end align-items-center">
-                <div class="form-check mb-0">
-                  <input class="form-check-input" type="checkbox" id="is_required_checkbox">
-                </div>
-              </div>
+              {{-- <div class="col-md-6 mt-2 d-flex justify-content-end align-items-center">
+               
+              </div> --}}
             </div>
 
             </div>

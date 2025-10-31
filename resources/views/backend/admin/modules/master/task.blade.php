@@ -1,6 +1,6 @@
 @extends('backend.admin.layouts.main')
 
-@section('title','Custom Field')
+@section('title', 'Custom Field')
 
 @section('main-container')
 <div class="page-body">
@@ -14,24 +14,28 @@
     </div>
   </div>
 
-  <!-- Container-fluid starts-->
+  <!-- Container-fluid starts -->
   <div class="container-fluid">
     <form id="taskForm" class="row g-3 needs-validation" novalidate>
-      <!-- Primary Fields on Left -->
+
+      <!-- ===================== LEFT SECTION (Primary Fields) ===================== -->
       <div class="col-md-9">
         <div class="card">
           <div class="card-header card-no-border pb-0">
             <h3>Primary Fields</h3>
           </div>
+
           <div class="card-body">
             <div class="card-wrapper border rounded-3">
               <div class="row g-3">
+                
+                <!-- Task Type -->
                 <div class="col-md-6">
                   <label class="form-label">Task Type <span class="text-danger">*</span></label>
                   <select class="form-select" id="task_primary_type" style="background-image:none;" required>
                     <option value="">Select Task Type</option>
                     <option value="Site Visit">Site Visit</option>
-                    <option value="Installnation">Installnation</option>
+                    <option value="Installation">Installation</option>
                     <option value="KYC Verification">KYC Verification</option>
                     <option value="KYC Upload">KYC Upload</option>
                     <option value="Cash Collection">Cash Collection</option>
@@ -39,139 +43,104 @@
                     <option value="Other">Other</option>
                   </select>
                 </div>
+
+                <!-- Priority -->
                 <div class="col-md-6">
                   <label class="form-label">Priority <span class="text-danger">*</span></label>
-                  <select class="form-select" id="tast_primary_priority" style="background-image:none;" required>
+                  <select class="form-select" id="task_primary_priority" style="background-image:none;" required>
                     <option value="">Select Priority</option>
                     <option value="Low">Low</option>
-                    <option value="Medium" selected>Medium</option>
+                    <option value="Medium">Medium</option>
                     <option value="High">High</option>
                     <option value="Urgent">Urgent</option>
                   </select>
                 </div>
+
+                <!-- Details -->
                 <div class="col-md-6">
                   <label class="form-label">Details <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="task_primary_details" placeholder="Enter Task Details" style="background-image:none;" required>
+                  <input type="text" class="form-control" id="task_primary_details"
+                         placeholder="Enter Task Details" style="background-image:none;" required>
                 </div>
+
+                <!-- Label -->
                 <div class="col-md-6">
                   <label class="form-label">Label <span class="text-danger">*</span></label>
                   <select class="form-select" id="task_primary_label" style="background-image:none;" required>
                     <option value="">Select Label</option>
                     <option value="Free">Free</option>
-                    <option value="Billable" selected>Billable</option>
+                    <option value="Billable">Billable</option>
                     <option value="Special">Special</option>
                   </select>
                 </div>
+
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Custom Fields on Right -->
+      <!-- ===================== RIGHT SECTION (Custom Fields) ===================== -->
       <div class="col-md-3">
+
+        <!-- Creation/Both Custom Fields -->
         <div class="card mb-3">
           <div class="card-header card-no-border pb-0">
-            <h3>Custom Fields</h3>
+            <h3>Custom Fields (Creation)</h3>
           </div>
+
           <div class="card-body">
             <div class="card-wrapper border rounded-3 p-3">
-             <div class="row g-3">
-              @foreach ($custom_field as $fields)
-                @if($fields->location == 'creation' || $fields->location == 'both')
-                  <div class="col-md-12">
-                    @if($fields->type == 'textarea')
-                      <label class="form-label" for="task_custom_{{ $loop->index }}">
-                        {{ $fields->name }} {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
-                      </label>
-                      <textarea class="form-control" id="task_custom_{{ $loop->index }}" name="task_custom_{{ $loop->index }}"
-                        placeholder="{{ $fields->placeholder }}" style="background-image:none;"
-                        {{ $fields->is_required == 1 ? 'required' : '' }}></textarea>
-
-                    @elseif($fields->type == 'checkbox')
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="task_custom_{{ $loop->index }}"
-                          name="task_custom_{{ $loop->index }}" {{ $fields->is_required == 1 ? 'required' : '' }}>
-                        <label class="form-check-label ms-1" for="task_custom_{{ $loop->index }}">
-                          {{ $fields->name }} {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
-                        </label>
-                      </div>
-
-                    @else
-                      <label class="form-label" for="task_custom_{{ $loop->index }}">
-                        {{ $fields->name }} {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
-                      </label>
-                      <input class="form-control" id="task_custom_{{ $loop->index }}" name="task_custom_{{ $loop->index }}"
-                        type="{{ $fields->type }}" placeholder="{{ $fields->placeholder }}" style="background-image:none;"
-                        {{ $fields->is_required == 1 ? 'required' : '' }}>
-                    @endif
-                  </div>
-                @endif
-              @endforeach
-            </div>
+              <div class="row g-3">
+                @foreach ($custom_field as $fields)
+                  @if($fields->location == 'creation' || $fields->location == 'both')
+                    <div class="col-md-12">
+                      @include('backend.admin.modules.master.custom-field-item', ['fields' => $fields, 'loopIndex' => $fields->id])
+                    </div>
+                  @endif
+                @endforeach
+              </div>
             </div>
           </div>
         </div>
 
-    <div class="card">
-  <div class="card-header card-no-border pb-0">
-    <h4>Allow Custom Fields For Task Submission</h4>
-  </div>
+        <!-- Submission/Both Custom Fields -->
+        <div class="card">
+          <div class="card-header card-no-border pb-0">
+            <h3>Custom Fields (Submission)</h3>
+          </div>
 
-  <div class="card-body">
-    <div class="card-wrapper border rounded-3 p-3">
-      <div class="row g-3">
-        @foreach ($custom_field as $fields)
-          @if($fields->location == 'submission' || $fields->location == 'both')
-            <div class="col-md-12">
-              @if($fields->type == 'textarea')
-                <label class="form-label" for="task_custom_{{ $loop->index }}">
-                  {{ $fields->name }}
-                  {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
-                </label>
-                <textarea class="form-control" id="task_custom_{{ $loop->index }}" name="task_custom_{{ $loop->index }}" placeholder="{{ $fields->placeholder }}"
-                  style="background-image:none;" {{ $fields->is_required == 1 ? 'required' : '' }}></textarea>
-
-              @elseif($fields->type == 'checkbox')
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="task_custom_{{ $loop->index }}" name="task_custom_{{ $loop->index }}"
-                    {{ $fields->is_required == 1 ? 'required' : '' }} >
-                  <label class="form-check-label ms-1" for="task_custom_{{ $loop->index }}">
-                    {{ $fields->name }}
-                    {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
-                  </label>
-                </div>
-
-              @else
-                <label class="form-label" for="task_custom_{{ $loop->index }}">
-                  {{ $fields->name }}
-                  {!! $fields->is_required == 1 ? '<span class="text-danger">*</span>' : '' !!}
-                </label>
-                <input class="form-control" id="task_custom_{{ $loop->index }}" name="task_custom_{{ $loop->index }}" type="{{ $fields->type }}"
-                  placeholder="{{ $fields->placeholder }}" style="background-image:none;" {{ $fields->is_required == 1 ? 'required' : '' }}>
-              @endif
+          <div class="card-body">
+            <div class="card-wrapper border rounded-3 p-3">
+              <div class="row g-3">
+                @foreach ($custom_field as $fields)
+                  @if($fields->location == 'submission' || $fields->location == 'both')
+                    <div class="col-md-12">
+                      @include('backend.admin.modules.master.custom-field-item', ['fields' => $fields, 'loopIndex' => $fields->id])
+                    </div>
+                  @endif
+                @endforeach
+              </div>
             </div>
-          @endif
-        @endforeach
-      </div>
-    </div>
-  </div>
-</div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- Unified Submit Button -->
+      <!-- Submit Button -->
       <div class="col-12 text-end mt-3">
         <button class="btn btn-primary" type="submit">Submit Task</button>
       </div>
+
     </form>
   </div>
-  <!-- Container-fluid Ends-->
+  <!-- Container-fluid Ends -->
 </div>
 @endsection
 
 @section('extra-js')
 <script>
-  const taskAdd = "{{route('admin-master-task.add')}}";
+  const taskAdd = "{{ route('admin-master-task.add') }}";
 </script>
-<script src="{{asset('backend/assets/js/custom/master/task.js')}}"></script>
+<script src="{{ asset('backend/assets/js/custom/master/task.js') }}"></script>
 @endsection

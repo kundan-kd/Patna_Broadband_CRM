@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100)->nullable();
             $table->string('placeholder', 100)->nullable();
+            $table->string('custom_field', 30)->nullable();
             $table->string('type',40)->nullable();
+            $table->text('type_option')->nullable();
             $table->string('location',40)->nullable();
             $table->string('category',40)->nullable();
             $table->string('class',255)->nullable();

@@ -16,6 +16,7 @@ class TaskController extends Controller
         return view('backend.admin.modules.master.task',compact('custom_field'));
     }
     public function add(Request $request){
+        // dd($request->all());
         $validator = Validator::make($request->all(),[
             'task_type' => 'required',
             'task_priority' => 'required',

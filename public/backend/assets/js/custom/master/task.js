@@ -5,7 +5,7 @@ $('#taskForm').on('submit', function (e) {
 
     // Primary fields
     let task_type = $('#task_primary_type').val();
-    let task_priority = $('#tast_primary_priority').val();
+    let task_priority = $('#task_primary_priority').val();
     let task_details = $('#task_primary_details').val();
     let task_label = $('#task_primary_label').val();
 

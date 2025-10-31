@@ -28,7 +28,6 @@
         { data: 'type', name: 'type' },
         { data: 'location', name: 'location' },
         { data: 'category', name: 'category' },
-        { data: 'class', name: 'class' },
         { data: 'is_required', name: 'is_required', orderable: false, searchable: false },
         { data: 'status', name: 'status', orderable: false, searchable: false },
         { data: 'action', name: 'action', orderable: false, searchable: false }
@@ -41,19 +40,26 @@
     }
 });
 
-$('.customFieldAdd').on('click',function(e){
+// $('.customFieldAdd').on('click',function(e){
+function resetData(){    
     $('#custom_field_id').val('');
     $('#custom_field_name').val('');
     $('#custom_field_place_holder').val('');
     $('#custom_field_type').val('');
+    $('.custom-select-option').addClass('d-none');
+    $('.custom-field-type').addClass('d-none');
+    $('.custom-location').addClass('d-none');
+    $('.custom-category').addClass('d-none');
+    $('#custom_field').val('');
     $('#custom_field_location').val('');
     $('#custom_field_category').val('');
     $('#custom_field_class').val('');
     $('#is_required_checkbox').prop('checked', false);
-    $('#customFieldUpdate').addClass('d-none');
-    $('#customFieldSubmit').removeClass('d-none');
+    $('.customFieldUpdate').addClass('d-none');
+    $('.customFieldSubmit').removeClass('d-none');
     $('.needs-validation').removeClass('was-validated');
-})
+    // $('#custom_field_form')[0].reset();
+};
 $('#custom_field_type').on('change',function(e){
     $('.custom-location').removeClass('d-none');
 });
@@ -119,13 +125,13 @@ $(document).on('click', '#liveToastSuccessAlert a', function(e) {
 });
 
 function selectFieldType(type){
+    $('.custom-field-type').removeClass('d-none');
     $('#custom_field_type').prop('disabled',false).empty();
     if(type == 'text'){
         $('#custom_field_type').append(`<option data-name="Input" value="">Select</option>
             <option data-name="Input" value="input">Input</option>
             <option data-name="Number" value="number">Number</option>
-            <option data-name="Textarea" value="textarea">Textarea</option>
-            <option data-name="Hyperlink" value="link">Hyperlink</option>`);
+            <option data-name="Textarea" value="textarea">Textarea</option>`);
     }else if(type == 'media'){
         $('#custom_field_type').append(`<option data-name="Input" value="">Select</option>
             <option data-name="Upload Files" value="file">Upload Files</option>`);
@@ -137,18 +143,37 @@ function selectFieldType(type){
             <option data-name="Switch Button" value="switch">Switch</option>
             <option data-name="Date Picker" value="date">Date Picker</option>
             <option data-name="Color Picker" value="color">Color Picker</option>`);
+    }else if(type == 'link'){
+        $('#custom_field_type').append(`<option data-name="Input" value="">Select</option>
+            <option data-name="Email" value="email">Email</option>
+            <option data-name="Url Link" value="url">Url Link</option>`);
    }else{
     $('#custom_field_type').append(`<option disabled selected value="">No custom field types available</option>`);
+    $('.custom-field-type').addClass('d-none');
 }
    
 }
-function fieldTypeData(data){
-    
+function fieldTypeData(data) {
+  if (data == 'select' || data == 'radio') {
+    $('.primary-option').prop('required', true);
+    $('.custom-select-option').removeClass('d-none');
+  } else {
+    $('.primary-option').prop('required', false);
+    $('.custom-select-option').addClass('d-none');
+  }
 }
 
 
+function addMore(){
+    $('.custom-select-option').append(` <div class="d-flex align-items-center gap-2 mt-1">
+                  <input class="form-control form-control-sm " id="custom_field_option" name="custom_field_option[]" style="background-image: none;">
+                  <i class="icon-trash text-danger" id="delete_option" title="Remove" style="cursor: pointer;font-size: 20px; font-weight: 100; opacity: 0.7;" onclick="removeRow(this)"></i>
+                </div>`);
+}
 
-
+function removeRow(x){
+    $(x).closest('div').remove();
+}
 
 
 
@@ -159,12 +184,24 @@ function fieldTypeData(data){
 
 $('#custom_field_form').on('submit', function (e) {
   e.preventDefault();
-  
-  let isRequired = $('#is_required_checkbox').is(':checked') ? 1 : 0;
-  let formData = {
+   
+    let field_option = $('input[name="custom_field_option[]"]').map(function(){return $(this).val()}).get().filter(val=>val !== '');
+    let isRequired = $('#is_required_checkbox').is(':checked') ? 1 : 0;
+    let fieldType = $('#custom_field_type').val();
+    if(fieldType == 'select' || fieldType == 'radio'){
+        if(field_option.length<=0){
+            $('.needs-validation').addClass('was-validated');
+            return;
+        }
+    }
+    // console.log(fieldType);
+    // console.log(field_option);
+    let formData = {
     name: $('#custom_field_name').val(),
     placeholder: $('#custom_field_place_holder').val(),
+    custom_field: $('#custom_field').val(),
     type: $('#custom_field_type').val(),
+    field_option:field_option,
     location: $('#custom_field_location').val(),
     category: $('#custom_field_category').val(),
     class: $('#custom_field_class').val(),
@@ -180,7 +217,7 @@ let hasEmpty = Object.entries(formData).some(([key, value]) => {
   if (hasEmpty) {
     $('.needs-validation').addClass('was-validated');
     return; // Stop submission
-  }
+  } 
 
 
   $.ajax({
@@ -188,9 +225,12 @@ let hasEmpty = Object.entries(formData).some(([key, value]) => {
     method: "POST",
     data: formData,
     success: function (response) {
+        console.log(response);
      if (response.success) {
         $('#custom-field').DataTable().ajax.reload();
         $('#customFieldModel').modal('hide');
+        $('#custom_field_form')[0].reset();
+        resetData();
         toastSuccessAlert(response.success);
     } else if (response.error_success) {
         toastErrorAlert(response.error_success);
@@ -230,6 +270,9 @@ function switchCustomField(id){
 }
 
 function editCustomField(id) {
+    $('#custom_field_form')[0].reset();
+    $('#custom_field_type').empty();
+    // $('.custom-select-option').empty();
     $.ajax({
         url: getCustomFieldDetails, // Make sure this route is defined
         type: "POST",
@@ -238,13 +281,71 @@ function editCustomField(id) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
+            console.log(response);
             if (response.success) {
                 let data = response.getData[0];
+                if(data.custom_field == 'text'){
+                    $('#custom_field_type').append(`
+                        <option data-name="Input" value="input" ${data.type == 'input' ? 'selected':''}>Input</option>
+                        <option data-name="Number" value="number" ${data.type == 'number' ? 'selected':''}>Number</option>
+                        <option data-name="Textarea" value="textarea" ${data.type == 'textarea' ? 'selected':''}>Textarea</option>`);
+                    $('.custom-field-type').removeClass('d-none');    
+                }else if(data.custom_field == 'link'){
+                    $('#custom_field_type').append(`
+                        <option data-name="Email" value="email" ${data.type == 'email' ? 'selected':''}>Email</option>
+                        <option data-name="Url Link" value="url" ${data.type == 'url' ? 'selected':''}>Url Link</option>`);
+                    $('.custom-field-type').removeClass('d-none');
+                }else if(data.custom_field == 'media'){
+                    $('#custom_field_type').append(`<option data-name="Upload Files" value="file" ${data.type == 'file' ? 'selected':''}>Upload Files</option>`);
+                    $('.custom-field-type').removeClass('d-none');
+                }else if(data.custom_field == 'select'){
+                    $('#custom_field_type').append(`
+                        <option data-name="Select" value="select" ${data.type == 'select' ? 'selected':''}>Select</option>
+                        <option data-name="Checkbox" value="checkbox" ${data.type == 'checkbox' ? 'selected':''}>Checkbox</option>
+                        <option data-name="Radio" value="radio" ${data.type == 'radio' ? 'selected':''}>Radio</option>
+                        <option data-name="Switch Button" value="switch" ${data.type == 'switch' ? 'selected':''}>Switch</option>
+                        <option data-name="Date Picker" value="date" ${data.type == 'date' ? 'selected':''}>Date Picker</option>
+                        <option data-name="Color Picker" value="color" ${data.type == 'color' ? 'selected':''}>Color Picker</option>`);
+                    $('.custom-field-type').removeClass('d-none');
+                        if(data.type == 'select' || data.type == 'radio'){
+                            let optionArray = data.type_option.split(",");
+                           $('.edit-append').html(''); // Clear existing options
 
+                        optionArray.forEach(function(element) {
+                        $('.edit-append').append(`
+                            <div class="d-flex align-items-center gap-2 mt-1">
+                            <input class="form-control form-control-sm primary-option" 
+                                    name="custom_field_option[]" 
+                                    value="${element}" 
+                                    style="background-image: none;" placeholder="Enter Field Type Data">
+                            <i class="fa fa-trash text-danger" 
+                                title="Remove" 
+                                style="cursor: pointer; font-size: 20px; font-weight: 100; opacity: 0.7;" 
+                                onclick="removeRow(this)"></i>
+                            </div>
+                        `);
+                        });
+
+
+
+
+
+
+
+
+
+                            $('.custom-select-option').removeClass('d-none');
+                        }else{
+                            $('.custom-select-option').addClass('d-none');
+                        }
+                 }else{
+                     $('.custom-field-type').addClass('d-none');
+                 }
                 // Populate form fields
                 $('#custom_field_id').val(data.id);
                 $('#custom_field_name').val(data.name);
                 $('#custom_field_place_holder').val(data.placeholder);
+                $('#custom_field').val(data.custom_field);
                 $('#custom_field_type').val(data.type);
                 $('#custom_field_location').val(data.location);
                 $('#custom_field_category').val(data.category);
@@ -279,6 +380,7 @@ function customFieldUpdate(id) {
     let category = $('#custom_field_category').val();
     let className = $('#custom_field_class').val();
     let isRequired = $('#is_required_checkbox').is(':checked') ? 1 : 0;
+     let field_option = $('input[name="custom_field_option[]"]').map(function(){return $(this).val()}).get().filter(val=>val !== '');
 
     if (name == '' || type == '') {
         $('.needs-validation').addClass('was-validated');
@@ -297,12 +399,14 @@ function customFieldUpdate(id) {
                 location: location,
                 category: category,
                 class: className,
-                is_required: isRequired
+                is_required: isRequired,
+                field_option:field_option
             },
             success: function (response) {
                 if (response.success) {
                     $('#custom-field').DataTable().ajax.reload();
                     $('#customFieldModel').modal('hide');
+                    resetData();
                     toastSuccessAlert(response.success);
                 } else if (response.error_success) {
                     toastErrorAlert(response.error_success);

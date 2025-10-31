@@ -48,12 +48,13 @@ class CustomfieldController extends Controller
                 return $row->category;
             })
 
-            // Display class
-            ->addColumn('class', function ($row) {
-                return $row->class;
-            })
+           
             ->addColumn('is_required', function ($row) {
-                return $row->is_required == 1 ?'Yes':'No';
+                if ($row->is_required == 1) {
+                return '<span style="color: red;">Yes</span>';
+                } else {
+                    return '<span style="color: green;">No</span>';
+                }
             })
 
             // Display is_required as switch
@@ -87,30 +88,25 @@ class CustomfieldController extends Controller
 
 
     public function store(Request $request){
+        //  dd($request->all());
         $request->validate([
             'name' => 'required',
             'placeholder' => 'nullable',
+            'custom_field' => 'required',
             'type' => 'required',
             'location' => 'required',
             'category' => 'required',
             'class' => 'nullable',
             'is_required' => 'nullable|boolean',
         ]);
-
-        // Check if the type already exists
-        // $existingType = CustomField::where('type', $request->type)->first();
-
-        // if ($existingType) {
-        //     return response()->json([
-        //         'already_found' => 'This custom field type already exists.'
-        //     ]); // 409 Conflict
-        // }
-
-        // Create new custom field
         $customField = new CustomField();
         $customField->name = $request->name;
         $customField->placeholder = $request->placeholder;
+        $customField->custom_field = $request->custom_field;
         $customField->type = $request->type;
+        if(!empty($request->field_option)){
+            $customField->type_option = implode(", ", $request->field_option); // array to string
+        }
         $customField->location = $request->location;
         $customField->category = $request->category;
         $customField->class = $request->class;
@@ -195,6 +191,9 @@ class CustomfieldController extends Controller
     $field->name = $request->name;
     $field->placeholder = $request->placeholder;
     $field->type = $request->type;
+     if(!empty($request->field_option)){
+            $field->type_option = implode(", ", $request->field_option); // array to string
+        }
     $field->location = $request->location;
     $field->category = $request->category;
     $field->class = $request->class;
