@@ -281,7 +281,7 @@ function editCustomField(id) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
-            console.log(response);
+            // console.log(response);
             if (response.success) {
                 let data = response.getData[0];
                 if(data.custom_field == 'text'){

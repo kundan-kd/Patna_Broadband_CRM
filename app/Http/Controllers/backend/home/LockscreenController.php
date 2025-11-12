@@ -11,12 +11,11 @@ use Illuminate\Support\Facades\Hash;
 
 class LockscreenController extends Controller
 {
-
     public function lockStatus(){
         $cookie = cookie(
             'lockscreen_status', // name
             'active',            // value
-            1440,                   // duration in minutes
+            0,                   // duration in minutes
             null,                // path
             null,                // domain
             false,               // secure (true if using HTTPS)
@@ -29,6 +28,7 @@ class LockscreenController extends Controller
             'status' => 'active' // hardcoded since it's just been queued
         ], 200);
     }
+
     public function checkLock(Request $request)
     {
         $status = $request->cookie('lockscreen_status');
@@ -46,7 +46,7 @@ class LockscreenController extends Controller
        $user_lock_pass = User::where('id', Auth::id())->value('lock_password'); // use value() instead of pluck()
 
     if ($request->password === $user_lock_pass) {
-        Cookie::queue(Cookie::forget('lockscreen_status'));
+         Cookie::queue(Cookie::forget('lockscreen_status'));
         return response()->json(['status' => true]);
     } else {
         return response()->json(['status' => false]);

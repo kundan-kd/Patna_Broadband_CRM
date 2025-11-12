@@ -1,6 +1,5 @@
 let idleTime = 0;
-// const idleLimit = 10 * 60 * 1000; // 10 minutes
-const idleLimit = 300 * 1000; // 600 seconds
+const idleLimit = 300 * 1000; // 30 seconds
 function resetIdleTimer() {
    let lockSession = localStorage.getItem("lockTriggered"); // Move inside
     if (lockSession == "active" || lockSession != null) {

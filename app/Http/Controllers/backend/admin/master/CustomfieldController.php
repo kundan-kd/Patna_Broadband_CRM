@@ -7,6 +7,7 @@ use App\Models\CustomField;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class CustomfieldController extends Controller
 {
@@ -88,7 +89,6 @@ class CustomfieldController extends Controller
 
 
     public function store(Request $request){
-        //  dd($request->all());
         $request->validate([
             'name' => 'required',
             'placeholder' => 'nullable',
@@ -99,8 +99,13 @@ class CustomfieldController extends Controller
             'class' => 'nullable',
             'is_required' => 'nullable|boolean',
         ]);
+        $exists = CustomField::where('name', $request->name)->exists();
+        if ($exists) {
+            return response()->json(['already_found' => 'This custom field name already exists.']);
+        }
         $customField = new CustomField();
         $customField->name = $request->name;
+        $customField->name_slug = Str::slug($request->name,'_');
         $customField->placeholder = $request->placeholder;
         $customField->custom_field = $request->custom_field;
         $customField->type = $request->type;
@@ -116,7 +121,6 @@ class CustomfieldController extends Controller
         }else{
             return response()->json(['error_success' => 'Custom field not created' ]);
         }
-
     }
 
     public function positionUpdate(Request $request){
@@ -189,6 +193,7 @@ class CustomfieldController extends Controller
 
     // Update fields
     $field->name = $request->name;
+    $field->name_slug = Str::slug($request->name,'_');
     $field->placeholder = $request->placeholder;
     $field->type = $request->type;
      if(!empty($request->field_option)){

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('task_type',30)->nullable();
             $table->string('priority',30)->nullable();
-            $table->string('details',100)->nullable();
+            $table->string('badge',30)->nullable();
             $table->string('label',50)->nullable();
             $table->timestamps();
             $table->softDeletes();

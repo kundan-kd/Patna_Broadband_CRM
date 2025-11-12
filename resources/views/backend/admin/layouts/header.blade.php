@@ -4,9 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Boho admin is super flexible, powerful, clean &amp; modern responsive bootstrap 5 admin template with unlimited possibilities.">
-    <meta name="keywords" content="admin template, Boho admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="pixelstrap">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{asset('backend/assets/images/favicon.png')}}" type="image/x-icon">
     <link rel="shortcut icon" href="{{asset('backend/assets/images/favicon.png')}}" type="image/x-icon">
@@ -47,7 +44,8 @@
     {{-- CDN --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
 
-
+{{-- .....................new.................. --}}
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- Custom CSS used --}}
     <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/css/custom/common.css')}}">
@@ -357,6 +355,8 @@
                 <li><a href="{{route('admin-master-taskSetting')}}">Task Setting</a></li>
                 <li><a href="{{route('admin-master-customField.index')}}">Custom Field</a></li>
                 <li><a href="{{route('admin-master-task.index')}}">Task</a></li>
+                <li><a href="{{route('admin-master-task.index2')}}">Task New Design</a></li>
+                <li><a href="{{route('admin-master-task.index-new')}}">Task New</a></li>
               </ul>
             </li>
             <li>

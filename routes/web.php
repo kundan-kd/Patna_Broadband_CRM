@@ -60,7 +60,7 @@ Route::middleware(['prevent-back', 'prevent-back-history'])->group(function(){
     Route::post('/task-status-update',[TasksettingController::class,'taskStatusUpdate'])->name('admin-master-taskSetting-update');
     Route::post('/task-status-delete',[TasksettingController::class,'taskStatusDelete'])->name('admin-master-taskSetting-delete');
     Route::post('/task-status/undo-position', [TasksettingController::class, 'undoTaskStatusPosition'])->name('undoTaskStatusPosition');
-
+  
     Route::post('/task-priority-view',[TasksettingController::class,'taskPriorityView'])->name('admin-master-taskPriority-view');
     Route::post('/task-priority-add',[TasksettingController::class,'taskPriorityAdd'])->name('admin-master-taskPriority-add');
     Route::post('/task-priority-position',[TasksettingController::class,'taskPriorityPositionUpdate'])->name('admin-master-taskPriority-positionUpdate');
@@ -81,6 +81,8 @@ Route::middleware(['prevent-back', 'prevent-back-history'])->group(function(){
     Route::post('/custom-field/get-delete', [CustomFieldController::class, 'delete'])->name('admin-master-customField.delete');
 
     Route::get('/task', [TaskController::class, 'index'])->name('admin-master-task.index');
+    Route::get('/task-design', [TaskController::class, 'index2'])->name('admin-master-task.index2');
+    Route::get('/task-new', [TaskController::class, 'indexNew'])->name('admin-master-task.index-new');
     Route::post('/task-add', [TaskController::class, 'add'])->name('admin-master-task.add');
 
 

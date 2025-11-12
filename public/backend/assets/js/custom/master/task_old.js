@@ -1,26 +1,3 @@
-  $(document).on('click', '.dropdown .dropdown-item', function (e) {
-    e.preventDefault();
-
-    let $item = $(this);
-    let value = $item.data('value');
-    let iconClass = $item.data('icon');
-    let $dropdown = $item.closest('.dropdown');
-
-    // Find button & hidden input inside same dropdown
-    let $button = $dropdown.find('button.dropdown-toggle');
-    let $hiddenInput = $dropdown.find('input[type="hidden"]');
-
-    // Update button display
-    let iconHtml = iconClass ? `<i class="bi ${iconClass} me-2"></i>` : '';
-    $button.find('span').html(iconHtml + value);
-
-    // Update hidden input value
-    $hiddenInput.val(value);
-  });
-
-   
-
-
 $('#taskForm').on('submit', function (e) {
     e.preventDefault();
 
@@ -29,22 +6,22 @@ $('#taskForm').on('submit', function (e) {
     // Primary fields
     let task_type = $('#task_primary_type').val();
     let task_priority = $('#task_primary_priority').val();
-     let task_badge = $('#task_primary_badge').val();
+    let task_details = $('#task_primary_details').val();
     let task_label = $('#task_primary_label').val();
 
     // Validate primary fields
-    if (task_type === '' || task_priority === '' || task_label === '') {
+    if (task_type === '' || task_priority === '' || task_details === '' || task_label === '') {
         isValid = false;
     }
 
     // Validate custom fields
-    $('[id^=custom_field_]').each(function () {
+    $('[id^=task_custom_]').each(function () {
         let $field = $(this);
         let isRequired = $field.prop('required');
         let value = $field.val();
 
         // Handle checkbox validation
-        if ($field.attr('type') == 'checkbox') {
+        if ($field.attr('type') === 'checkbox') {
             if (isRequired && !$field.is(':checked')) {
                 isValid = false;
                 $field.closest('.form-check').addClass('was-validated');
@@ -68,34 +45,25 @@ $('#taskForm').on('submit', function (e) {
     }
 
     // Collect all custom fields dynamically
-  let customFields = [];
+    let customFields = {};
+    $('[id^=task_custom_]').each(function () {
+        let fieldId = $(this).attr('id');
+        let fieldValue;
 
-$('[id^=custom_field_]').each(function () {
-    let $field = $(this);
-    let fieldId = $field.attr('id');
-    let fieldValue;
+        if ($(this).attr('type') === 'checkbox') {
+            fieldValue = $(this).is(':checked') ? 1 : 0;
+        } else {
+            fieldValue = $(this).val();
+        }
 
-    if ($field.attr('type') === 'checkbox') {
-        fieldValue = $field.is(':checked') ? 1 : 0;
-    } else {
-        fieldValue = $field.val();
-    }
-
-    let customFieldId = $field.data('custom_field_id'); // Extract data-custom_field_id
-
-    customFields.push({
-        html_id: fieldId,
-        custom_field_id: customFieldId,
-        value: fieldValue
+        customFields[fieldId] = fieldValue;
     });
-});
-
 
     // Combine everything
     let formData = {
         task_type: task_type,
         task_priority: task_priority,
-        task_badge: task_badge,
+        task_details: task_details,
         task_label: task_label,
         custom_fields: customFields,
     };
@@ -111,18 +79,6 @@ $('[id^=custom_field_]').each(function () {
                 $('#taskForm')[0].reset();
                 $('.needs-validation').removeClass('was-validated');
                 $('.is-invalid').removeClass('is-invalid');
-
-                 //   after submit form these data be auto reset
-              
-              $('#taskForm').find('.dropdown').each(function () {
-                let $dropdown = $(this);
-                let $button = $dropdown.find('button.dropdown-toggle');
-                let $hiddenInput = $dropdown.find('input[type="hidden"]');
-                $button.find('span').html('Select an option');
-                $hiddenInput.val('');
-            });
-
-              
             } else {
                 toastErrorAlert(response.success);
             }

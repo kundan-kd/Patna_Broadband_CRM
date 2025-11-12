@@ -1,11 +1,5 @@
 /*! -----------------------------------------------------------------------------------
 
-    Template Name: Boho Admin
-    Template URI: http://admin.pixelstrap.com/Boho/theme
-    Description: This is Admin theme
-    Author: Pixelstrap
-    Author URI: https://themeforest.net/user/pixelstrap
-
 -----------------------------------------------------------------------------------
 
     1.Base css
@@ -5498,7 +5492,7 @@ body.modal-open .select2-container--open .select2-dropdown {
 }
 
 /**=====================
-	2.6 Breadcrumb CSS ends
+  2.6 Breadcrumb CSS ends
 ==========================**/
 /**=====================
     2.7 Basic-card CSS Start
@@ -7105,7 +7099,7 @@ table.dataTable.display tbody tr.even .badge {
    2.13 Datapicker CSS End
 ==========================**/
 /**=====================
-	2.14 Dropdown CSS Start
+  2.14 Dropdown CSS Start
 ==========================**/
 .img-cropper .dropup .dropdown-toggle::after {
   content: "";
@@ -7377,7 +7371,7 @@ btn-group .dropdown-wrapper {
 }
 
 /**=====================
-	2.14 Dropdown CSS Ends
+  2.14 Dropdown CSS Ends
 ==========================**/
 /**=====================
     2.16 Form-input CSS Start
@@ -7529,7 +7523,7 @@ btn-group .dropdown-wrapper {
 
 /**=====================
     2.16 Form-input CSS Ends
-	==========================**/
+  ==========================**/
 /**=====================
     2.17 Form-wizard CSS Start
 ==========================**/
@@ -9477,7 +9471,7 @@ btn-group .dropdown-wrapper {
   2.18 Forms CSS Ends
 ==========================**/
 /**=====================
-	2.19 Icons CSS Start
+  2.19 Icons CSS Start
 ==========================**/
 .icon-lists div {
   cursor: pointer;
@@ -23992,7 +23986,7 @@ body {
     3.29 Login CSS Ends
 ==========================**/
 /**=====================
-	3.30 Megaoption CSS Start
+  3.30 Megaoption CSS Start
 ==========================**/
 .mega-inline {
   margin-bottom: -30px;
@@ -27178,10 +27172,10 @@ html {
     3.42 Wishlist CSS Ends
 ==========================**/
 /* ---------------------
-	*** themes ***
+  *** themes ***
 -----------------------*/
 /**=====================
-	4.1. Dark CSS Start
+  4.1. Dark CSS Start
 ==========================**/
 body.dark-only {
   color: rgba(255, 255, 255, 0.8);
@@ -31937,7 +31931,7 @@ body[class*=dark-] .for-light {
 }
 
 /**=====================
-	4.1. Dark CSS ends
+  4.1. Dark CSS ends
 ==========================**/
 /**=====================
   4.2 Theme-customizer CSS Start

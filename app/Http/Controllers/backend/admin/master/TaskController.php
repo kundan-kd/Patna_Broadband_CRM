@@ -15,12 +15,16 @@ class TaskController extends Controller
         $custom_field = CustomField::where('status',1)->get();
         return view('backend.admin.modules.master.task',compact('custom_field'));
     }
+    public function index2(){
+        $custom_field = CustomField::where('status',1)->get();
+        return view('backend.admin.modules.master.task2',compact('custom_field'));
+    }
     public function add(Request $request){
-        // dd($request->all());
+        //   dd($request->all());
         $validator = Validator::make($request->all(),[
             'task_type' => 'required',
             'task_priority' => 'required',
-            'task_details' => 'required',
+            'task_badge' => 'required',
             'task_label' => 'required',
         ]);
         if($validator->fails()){
@@ -29,26 +33,42 @@ class TaskController extends Controller
         $task = new Task();
         $task->task_type = $request->task_type;
         $task->priority = $request->task_priority;
-        $task->details = $request->task_details;
+        $task->badge = $request->task_badge;
         $task->label = $request->task_label;
         if($task->save()){
             
         // Save custom fields
-        if ($request->has('custom_fields')) {
-            foreach ($request->custom_fields as $field_key => $value) {
-                // Assuming you have a model TaskCustomField or similar
-                $customField = new TaskCustomField();
-                $customField->task_id = $task->id;
-                $customField->field_key = $field_key;
-                $customField->field_value = $value;
-                $customField->save();
+        // if ($request->has('custom_fields')) {
+        //     foreach ($request->custom_fields as $field_key => $value) {
+        //         // Assuming you have a model TaskCustomField or similar
+        //         $customField = new TaskCustomField();
+        //         $customField->task_id = $task->id;
+        //         $customField->field_key = $field_key;
+        //         $customField->field_value = $value;
+        //         $customField->save();
 
-            }
-        }
+        //     }
+        // }
+
+    if ($request->has('custom_fields')) {
+    foreach ($request->custom_fields as $field) {
+        $customField = new TaskCustomField();
+        $customField->task_id = $task->id;
+        $customField->field_id = $field['custom_field_id']; // correct key from AJAX
+        $customField->field_key = $field['html_id']; // correct key from AJAX
+        $customField->field_value = $field['value'];
+        $customField->save();
+    }
+}
+
             return response()->json(['success'=>'Task submitted succesfully'],200);
         }else{
             return response()->json(['error_success'=>'Task not submitted']);
 
         }
+    }
+        public function indexNew(){
+        $custom_field = CustomField::where('status',1)->get();
+        return view('backend.admin.modules.master.task-new',compact('custom_field'));
     }
 }

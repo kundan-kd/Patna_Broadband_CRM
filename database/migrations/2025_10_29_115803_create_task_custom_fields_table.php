@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('task_custom_fields', function (Blueprint $table) {
         $table->id();
         $table->unsignedBigInteger('task_id');
-        $table->string('field_key');
+        $table->integer('field_id')->nullable();
+        $table->string('field_key',40)->nullable();
         $table->text('field_value')->nullable();
         $table->timestamps();
         $table->softDeletes();
