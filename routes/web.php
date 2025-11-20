@@ -4,6 +4,7 @@ use App\Http\Controllers\backend\admin\master\CustomfieldController;
 use App\Http\Controllers\backend\admin\master\TaskController;
 use App\Http\Controllers\backend\admin\master\TasksettingController;
 use App\Http\Controllers\backend\admin\master\UserController;
+use App\Http\Controllers\backend\admin\user\UserController as UserUserController;
 use App\Http\Controllers\backend\auth\AuthController;
 use App\Http\Controllers\backend\home\LockscreenController;
 use Illuminate\Support\Facades\Route;
@@ -85,7 +86,7 @@ Route::middleware(['prevent-back', 'prevent-back-history'])->group(function(){
     Route::get('/task-new', [TaskController::class, 'indexNew'])->name('admin-master-task.index-new');
     Route::post('/task-add', [TaskController::class, 'add'])->name('admin-master-task.add');
 
-
+    Route::get('/user-task', [UserUserController::class, 'index'])->name('admin-user-task');
 
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

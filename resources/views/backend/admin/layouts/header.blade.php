@@ -46,10 +46,10 @@
 
 {{-- .....................new.................. --}}
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.7.0/fonts/remixicon.min.css" rel="stylesheet">
     {{-- Custom CSS used --}}
     <link rel="stylesheet" type="text/css" href="{{asset('backend/assets/css/custom/common.css')}}">
-
+  @yield('extra-css')
 
   </head>
   <body>
@@ -357,6 +357,14 @@
                 <li><a href="{{route('admin-master-task.index')}}">Task</a></li>
                 <li><a href="{{route('admin-master-task.index2')}}">Task New Design</a></li>
                 <li><a href="{{route('admin-master-task.index-new')}}">Task New</a></li>
+              </ul>
+            </li>
+            <li>
+              <div> 
+                <h3 class="lan-1#">User</h3>
+              </div>
+              <ul class="sidebar-body-mainmenu custom-scrollbar"> 
+                <li><a href="{{route('admin-user-task')}}">User Task</a></li>
               </ul>
             </li>
             <li>

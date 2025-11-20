@@ -61,10 +61,12 @@
   <ul class="dropdown-menu w-100" aria-labelledby="task_primary_badge_btn">
     <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-circle" data-color="text-secondary" data-value="TO DO">
       <i class="bi bi-circle me-2 text-secondary"></i>TO DO</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-play-circle" data-color="text-primary" data-value="IN PROGRESS">
-      <i class="bi bi-play-circle me-2 text-primary"></i>IN PROGRESS</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-check-circle" data-color="text-success" data-value="COMPLETE">
-      <i class="bi bi-check-circle me-2 text-success"></i>COMPLETE</a></li>
+    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-play-circle" data-color="text-primary" data-value="DOING">
+      <i class="bi bi-play-circle me-2 text-primary"></i>DOING</a></li>
+    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-check-circle" data-color="text-success" data-value="DONE">
+      <i class="bi bi-check-circle me-2 text-success"></i>DONE</a></li>
+    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-check-circle" data-color="text-success" data-value="HOLD">
+      <i class="bi bi-check-circle me-2 text-success"></i>HOLD</a></li>
   </ul>
 </div>
               {{-- <div class="task-status-wrappr dropdown">
@@ -116,10 +118,11 @@
   </button>
   <input type="hidden" id="task_primary_priority" value="">
   <ul class="dropdown-menu w-100" aria-labelledby="task_primary_priority_btn">
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-flag" data-value="Low"><i class="bi bi-flag me-2 text-success"></i>Low</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-flag-fill" data-value="Medium"><i class="bi bi-flag-fill me-2 text-warning"></i>Medium</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-exclamation-triangle" data-value="High"><i class="bi bi-exclamation-triangle me-2 text-danger"></i>High</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-lightning-charge" data-value="Urgent"><i class="bi bi-lightning-charge me-2 text-danger"></i>Urgent</a></li>
+    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-flag" data-value="CRITICAL"><i class="bi bi-flag me-2 text-success"></i>CRITICAL</a></li>
+    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-flag-fill" data-value="HIGH"><i class="bi bi-flag-fill me-2 text-warning"></i>HIGH</a></li>
+    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-exclamation-triangle" data-value="MEDIUM"><i class="bi bi-exclamation-triangle me-2 text-danger"></i>MEDIUM</a></li>
+    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-lightning-charge" data-value="LOW"><i class="bi bi-lightning-charge me-2 text-danger"></i>LOW</a></li>
+    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-lightning-charge" data-value="NO PRIORITY"><i class="bi bi-lightning-charge me-2 text-danger"></i>NO PRIORITY</a></li>
   </ul>
 </div>
 
@@ -237,25 +240,33 @@
 
                           @case('radio')
                           @php $radios = explode(",", $fields->type_option); @endphp
-                            <tr>
-                              <td class="px-2 py-2">{{$fields->name}} {!! $fields->is_required ? '<span class="text-danger">*</span>' : '' !!}</td>
-                              <td class="px-2 py-2">
-                               @foreach ($radios as $key => $radio)
-                                  <div class="form-check radio radio-secondary">
-                                    <input class="form-check-input"
-                                          type="radio"
-                                          id="custom_field_{{$fields->name_slug}}_{{ $key }}" data-custom_field_id="{{$fields->id}}"
-                                          name="radio1"
-                                          value="{{ $radio }}" style="background-image: none;"
-                                          {{ $key == 0 ? 'checked' : '' }} {{ $fields->is_required ? 'required' : '' }}>
-                                    <label class="form-check-label" for="custom_field_{{$fields->name_slug}}_{{ $key }}" {{ $fields->is_required ? 'required' : '' }}>
-                                      {{ $radio }}
-                                    </label>
-                                  </div>
-                                @endforeach
-
-                              </td>
-                            </tr>
+                         <tr>
+                            <td class="px-2 py-2">
+                              {{$fields->name}} {!! $fields->is_required ? '<span class="text-danger">*</span>' : '' !!}
+                            </td>
+                            <td class="px-2 py-2">
+                              @foreach ($radios as $key => $radio)
+                                <div class="form-check form-check-inline">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    id="custom_field_{{$fields->name_slug}}_{{ $key }}"
+                                    name="custom_field[{{$fields->name_slug}}]"
+                                    value="{{ $radio }}"
+                                    data-custom_field_id="{{$fields->id}}"
+                                    {{ $key == 0 ? 'checked' : '' }}
+                                    {{ $fields->is_required ? 'required' : '' }}
+                                  >
+                                  <label
+                                    class="form-check-label"
+                                    for="custom_field_{{$fields->name_slug}}_{{ $key }}"
+                                  >
+                                    {{ $radio }}
+                                  </label>
+                                </div>
+                              @endforeach
+                            </td>
+                          </tr>
                             @break
 
                           @case('switch')
@@ -283,10 +294,19 @@
                             </tr>
                             @break
                           @case('date')
-                            <tr>
-                              <td class="px-2 py-2">{{$fields->name}} {!! $fields->is_required ? '<span class="text-danger">*</span>' : '' !!}</td>
+                           <tr>
                               <td class="px-2 py-2">
-                                <input class="form-control form-control-color" type="date" id="custom_field_{{$fields->name_slug}}" data-custom_field_id="{{$fields->id}}" style="width: 130px;" style="background-image: none;" {{ $fields->is_required ? 'required' : '' }}>
+                                {{$fields->name}} {!! $fields->is_required ? '<span class="text-danger">*</span>' : '' !!}
+                              </td>
+                              <td class="px-2 py-2">
+                                <input
+                                  class="form-control"
+                                  type="date"
+                                  id="custom_field_{{$fields->name_slug}}"
+                                  data-custom_field_id="{{$fields->id}}"
+                                  style="width: 140px; background-image: none;"
+                                  {{ $fields->is_required ? 'required' : '' }}
+                                >
                               </td>
                             </tr>
                             @break
@@ -403,14 +423,30 @@
 
                           @case('radio')
                           @php $radios = explode(",", $fields->type_option); @endphp
-                            <tr>
-                              <td class="px-2 py-2">{{$fields->name}} {!! $fields->is_required ? '<span class="text-danger">*</span>' : '' !!}</td>
+                           <tr>
                               <td class="px-2 py-2">
-                                  @foreach ($radios as $key => $radio)
-                                <div class="form-check">
-                                  <input class="form-check-input" type="radio" id="custom_field_{{$fields->name_slug}}" data-custom_field_id="{{$fields->id}}" name="radio1" style="background-image: none;" checked {{ $fields->is_required ? 'required' : '' }}>
-                                  <label class="form-check-label" for="custom_field_{{$fields->name_slug}}" {{ $fields->is_required ? 'required' : '' }}>  {{ $radio }}</label>
-                                </div>
+                                {{$fields->name}} {!! $fields->is_required ? '<span class="text-danger">*</span>' : '' !!}
+                              </td>
+                              <td class="px-2 py-2">
+                                @foreach ($radios as $key => $radio)
+                                  <div class="form-check form-check-inline">
+                                    <input
+                                      class="form-check-input"
+                                      type="radio"
+                                      id="custom_field_{{$fields->name_slug}}_{{ $key }}"  
+                                      name="custom_field[{{$fields->name_slug}}]"
+                                      value="{{ $radio }}"
+                                      data-custom_field_id="{{$fields->id}}"
+                                      {{ $key == 0 ? 'checked' : '' }}
+                                      {{ $fields->is_required ? 'required' : '' }}
+                                    >
+                                    <label
+                                      class="form-check-label"
+                                      for="custom_field_{{$fields->name_slug}}_{{ $key }}"
+                                    >
+                                      {{ $radio }}
+                                    </label>
+                                  </div>
                                 @endforeach
                               </td>
                             </tr>
@@ -439,9 +475,18 @@
                             @break
                           @case('date')
                             <tr>
-                              <td class="px-2 py-2">{{$fields->name}} {!! $fields->is_required ? '<span class="text-danger">*</span>' : '' !!}</td>
                               <td class="px-2 py-2">
-                                <input class="form-control form-control-color" type="date" id="custom_field_{{$fields->name_slug}}" data-custom_field_id="{{$fields->id}}" style="width: 130px;" style="background-image: none;" {{ $fields->is_required ? 'required' : '' }}>
+                                {{$fields->name}} {!! $fields->is_required ? '<span class="text-danger">*</span>' : '' !!}
+                              </td>
+                              <td class="px-2 py-2">
+                                <input
+                                  class="form-control"
+                                  type="date"
+                                  id="custom_field_{{$fields->name_slug}}"
+                                  data-custom_field_id="{{$fields->id}}"
+                                  style="width: 140px; background-image: none;"
+                                  {{ $fields->is_required ? 'required' : '' }}
+                                >
                               </td>
                             </tr>
                             @break
@@ -482,23 +527,25 @@
                 </div>
                 <!-- Footer Buttons -->
                 <div class="col-12 border-top pt-3 d-flex justify-content-end align-items-center">
-                  <div class="dropdown assignee-wrapper me-3">
-                    <button id="assigneeBtn"
+                  <div class="dropdown assignee-wrapper me-3 assigneeBtn">
+                    <button id=""
                             class="btn btn-sm py-1 px-2 btn-outline-light d-flex align-items-center"
                             data-bs-toggle="dropdown" aria-expanded="false">
                       <i class="bi bi-person me-1"></i> Assignee
                     </button>
                     <div class="dropdown-menu p-2 shadow">
                       <input type="text" class="search-input mb-2" placeholder="Search or enter email...">
-                      <div id="userList">
-                        <div class="user-item d-flex align-items-center gap-2" data-name="Me" data-initials="AK">
-                          <div class="user-avatar"><span>AK</span><span class="online-dot"></span></div>
-                          <span>Me</span>
-                        </div>
-                        <div class="user-item d-flex align-items-center gap-2" data-name="John Doe" data-initials="JD">
+                      <div>
+                        @foreach ($users as $user)
+                          <div class="user-item d-flex align-items-center gap-2" id="userList" data-assign_to="{{ $user->id }}" data-initials="@">
+                            <div class="user-avatar"><span>@</span><span class="online-dot"></span></div>
+                            <span>{{ $user->name }}</span>
+                          </div>
+                        @endforeach
+                        {{-- <div class="user-item d-flex align-items-center gap-2" data-name="John Doe" data-initials="JD">
                           <div class="user-avatar bg-primary"><span>JD</span></div>
                           <span>John Doe</span>
-                        </div>
+                        </div> --}}
                       </div>
                     </div>
                   </div>

@@ -31,6 +31,13 @@ $('#taskForm').on('submit', function (e) {
     let task_priority = $('#task_primary_priority').val();
      let task_badge = $('#task_primary_badge').val();
     let task_label = $('#task_primary_label').val();
+    let assign_to = $('#userList').data('assign_to');
+    if (assign_to) {
+    $('.assigneeBtn')
+        .css('border', '1px solid red')
+        .css('border-radius', '4px');
+}
+
 
     // Validate primary fields
     if (task_type === '' || task_priority === '' || task_label === '') {

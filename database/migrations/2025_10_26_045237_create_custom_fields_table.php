@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('custom_fields', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100)->nullable();
+            $table->string('name_slug', 40)->nullable();
             $table->string('placeholder', 100)->nullable();
             $table->string('custom_field', 30)->nullable();
             $table->string('type',40)->nullable();

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CustomField;
 use App\Models\Task;
 use App\Models\TaskCustomField;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -69,6 +70,7 @@ class TaskController extends Controller
     }
         public function indexNew(){
         $custom_field = CustomField::where('status',1)->get();
-        return view('backend.admin.modules.master.task-new',compact('custom_field'));
+        $users = User::where('type','admin')->where('status',1)->get();
+        return view('backend.admin.modules.master.task-new',compact('custom_field','users'));
     }
 }

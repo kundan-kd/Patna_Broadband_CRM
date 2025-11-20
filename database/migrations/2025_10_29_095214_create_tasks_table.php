@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->integer('assign_to')->nullable();
             $table->string('task_type',30)->nullable();
             $table->string('priority',30)->nullable();
             $table->string('badge',30)->nullable();
