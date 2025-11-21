@@ -13,7 +13,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $task_created = Task::get();  
+        $task_created = Task::with('userData')->get();  
         return view('backend.admin.modules.user.user-task',compact('task_created'));
     }
 

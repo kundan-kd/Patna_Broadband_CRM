@@ -455,7 +455,7 @@
                                     <option value="TODO" {{ $task->badge == 'TODO' ? 'selected':'' }}>TODO</option>
                                     <option value="DOING" {{ $task->badge == 'DOING' ? 'selected':'' }}>DOING</option>
                                     <option value="DONE" {{ $task->badge == 'DONE' ? 'selected':'' }}>DONE</option>
-                                    <option value="HOLD" {{ $task->badge == 'HOLD' ? 'selected':'' }}>HOLD</option>
+                                    <option value="HOLD" {{ $task->badge == 'HOLD ' ? 'selected':'' }}>HOLD</option>
                                 </select>
                             </div>
                         </div>
@@ -463,11 +463,11 @@
 
                     <div class="task-duration">
                         <small>Sunday, April 28, 2024</small>
-                        <span class="task-days-left badge rounded-pill mt-1" style="background:#07a654; color:#fff;">5 days left</span>
+                        <span class="task-days-left badge rounded-pill mt-1" style="background:#07a654; color:#fff;">0 days left</span>
                     </div>
 
                     <div class="d-flex">
-                        <div class="popup-attachment avatar-group ps-2 d-flex">
+                        {{-- <div class="popup-attachment avatar-group ps-2 d-flex">
                             <div class="avatar sm mb-0">
                                 <a href="http://farm9.staticflickr.com/8242/8558295633_f34a55c1c6_b.jpg">
                                     <img src="http://farm9.staticflickr.com/8242/8558295633_f34a55c1c6_s.jpg" class="circle">
@@ -478,18 +478,18 @@
                                     <img src="http://farm9.staticflickr.com/8382/8558295631_0f56c1284f_s.jpg" class="circle">
                                 </a>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="d-flex attachment-file">
-                            <div class="text-avatar circle sm mb-0 bg-white">
+                            {{-- <div class="text-avatar circle sm mb-0 bg-white">
                                 <a href="arterio.pdf" download="file-download">
                                     <span><i class="ri-attachment-2"></i></span>
                                 </a>
-                            </div>
+                            </div> --}}
 
-                            <div class="text-avatar circle sm mb-0 bg-white text-primary" id="notifications" data-bs-toggle="dropdown">
+                            {{-- <div class="text-avatar circle sm mb-0 bg-white text-primary" id="notifications" data-bs-toggle="dropdown">
                                 +5
-                            </div>
+                            </div> --}}
 
                             <div class="dropdown-menu">
                                 <div class="dropdown-menu-header"> Attachment (4) </div>
@@ -526,8 +526,8 @@
 
                     <div class="task-assigned">
                         <div class="stacked-images mt-1">
-                            <div class="sm badge rounded-pill badge-primary cursor-pointer" data-bs-toggle="tooltip" title="Nisha Kumari">NK</div>
-                            <div class="sm badge rounded-pill badge-primary cursor-pointer" data-bs-toggle="tooltip" title="Nisha Kumari">NK</div>
+                            <div class="sm badge rounded-pill badge-primary cursor-pointer" data-bs-toggle="tooltip" title="{{ $task->userData->name ?? 'NA' }}">NK</div>
+                            {{-- <div class="sm badge rounded-pill badge-primary cursor-pointer" data-bs-toggle="tooltip" title="Nisha Kumari">NK</div>
                             <div class="sm badge rounded-pill badge-primary cursor-pointer" data-bs-toggle="tooltip" title="Nisha Kumari">NK</div>
 
                             <span class="plus sm" id="notifications" data-bs-toggle="dropdown">+7</span>
@@ -544,7 +544,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
 

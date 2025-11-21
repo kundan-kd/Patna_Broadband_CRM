@@ -110,39 +110,39 @@
                   <div class="d-flex flex-wrap align-items-center gap-3">
                     {{-- Priority start --}}
                    <!-- ================== PRIORITY ================== -->
-<div class="dropdown task-priority-wrapper">
-  <button class="btn btn-outline-light dropdown-toggle w-100 text-start d-flex align-items-center justify-content-between"
-          type="button" id="task_primary_priority_btn"
-          data-bs-toggle="dropdown" aria-expanded="false">
-    <span><i class="bi bi-flag me-2"></i>Select Priority</span>
-  </button>
-  <input type="hidden" id="task_primary_priority" value="">
-  <ul class="dropdown-menu w-100" aria-labelledby="task_primary_priority_btn">
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-flag" data-value="CRITICAL"><i class="bi bi-flag me-2 text-success"></i>CRITICAL</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-flag-fill" data-value="HIGH"><i class="bi bi-flag-fill me-2 text-warning"></i>HIGH</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-exclamation-triangle" data-value="MEDIUM"><i class="bi bi-exclamation-triangle me-2 text-danger"></i>MEDIUM</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-lightning-charge" data-value="LOW"><i class="bi bi-lightning-charge me-2 text-danger"></i>LOW</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-lightning-charge" data-value="NO PRIORITY"><i class="bi bi-lightning-charge me-2 text-danger"></i>NO PRIORITY</a></li>
-  </ul>
-</div>
+    <div class="dropdown task-priority-wrapper">
+      <button class="btn btn-outline-light dropdown-toggle w-100 text-start d-flex align-items-center justify-content-between"
+              type="button" id="task_primary_priority_btn"
+              data-bs-toggle="dropdown" aria-expanded="false">
+        <span><i class="bi bi-flag me-2"></i>Select Priority</span>
+      </button>
+      <input type="hidden" id="task_primary_priority" value="">
+      <ul class="dropdown-menu w-100" aria-labelledby="task_primary_priority_btn">
+        <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-flag" data-value="CRITICAL"><i class="bi bi-flag me-2 text-success"></i>CRITICAL</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-flag-fill" data-value="HIGH"><i class="bi bi-flag-fill me-2 text-warning"></i>HIGH</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-exclamation-triangle" data-value="MEDIUM"><i class="bi bi-exclamation-triangle me-2 text-danger"></i>MEDIUM</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-lightning-charge" data-value="LOW"><i class="bi bi-lightning-charge me-2 text-danger"></i>LOW</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-lightning-charge" data-value="NO PRIORITY"><i class="bi bi-lightning-charge me-2 text-danger"></i>NO PRIORITY</a></li>
+      </ul>
+    </div>
 
                     {{-- Priority end --}}
 
                     {{-- Label start --}}
                   <!-- ================== LABEL ================== -->
-<div class="dropdown task-label-wrapper">
-  <button class="btn btn-outline-light dropdown-toggle w-100 text-start d-flex align-items-center justify-content-between"
-          type="button" id="task_primary_label_btn"
-          data-bs-toggle="dropdown" aria-expanded="false">
-    <span><i class="bi bi-tag me-2"></i>Select Label</span>
-  </button>
-  <input type="hidden" id="task_primary_label" value="">
-  <ul class="dropdown-menu w-100" aria-labelledby="task_primary_label_btn">
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-tag" data-value="Free"><i class="bi bi-tag me-2 text-success"></i>Free</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-currency-rupee" data-value="Billable"><i class="bi bi-currency-rupee me-2 text-primary"></i>Billable</a></li>
-    <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-star" data-value="Special"><i class="bi bi-star me-2 text-warning"></i>Special</a></li>
-  </ul>
-</div>
+    <div class="dropdown task-label-wrapper">
+      <button class="btn btn-outline-light dropdown-toggle w-100 text-start d-flex align-items-center justify-content-between"
+              type="button" id="task_primary_label_btn"
+              data-bs-toggle="dropdown" aria-expanded="false">
+        <span><i class="bi bi-tag me-2"></i>Select Label</span>
+      </button>
+      <input type="hidden" id="task_primary_label" value="">
+      <ul class="dropdown-menu w-100" aria-labelledby="task_primary_label_btn">
+        <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-tag" data-value="Free"><i class="bi bi-tag me-2 text-success"></i>Free</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-currency-rupee" data-value="Billable"><i class="bi bi-currency-rupee me-2 text-primary"></i>Billable</a></li>
+        <li><a class="dropdown-item d-flex align-items-center" href="#" data-icon="bi-star" data-value="Special"><i class="bi bi-star me-2 text-warning"></i>Special</a></li>
+      </ul>
+    </div>
                     {{-- Label end --}}
                   </div>
                 </div>
@@ -527,28 +527,17 @@
                 </div>
                 <!-- Footer Buttons -->
                 <div class="col-12 border-top pt-3 d-flex justify-content-end align-items-center">
-                  <div class="dropdown assignee-wrapper me-3 assigneeBtn">
-                    <button id=""
-                            class="btn btn-sm py-1 px-2 btn-outline-light d-flex align-items-center"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="bi bi-person me-1"></i> Assignee
-                    </button>
-                    <div class="dropdown-menu p-2 shadow">
-                      <input type="text" class="search-input mb-2" placeholder="Search or enter email...">
-                      <div>
-                        @foreach ($users as $user)
-                          <div class="user-item d-flex align-items-center gap-2" id="userList" data-assign_to="{{ $user->id }}" data-initials="@">
-                            <div class="user-avatar"><span>@</span><span class="online-dot"></span></div>
-                            <span>{{ $user->name }}</span>
-                          </div>
-                        @endforeach
-                        {{-- <div class="user-item d-flex align-items-center gap-2" data-name="John Doe" data-initials="JD">
-                          <div class="user-avatar bg-primary"><span>JD</span></div>
-                          <span>John Doe</span>
-                        </div> --}}
-                      </div>
-                    </div>
-                  </div>
+                <div class="assignee-wrapper me-3 assigneeBtn">
+    {{-- <label for="assignee" class="form-label d-flex align-items-center">
+        <i class="bi bi-person me-1"></i> Assignee
+    </label> --}}
+              <select id="assignee" name="assignee" class="form-select form-select-sm" style="background-image: none;" required>
+                  <option value="">Assignee</option>
+                  @foreach ($users as $user)
+                      <option value="{{ $user->id }}">{{ $user->name }}</option>
+                  @endforeach
+              </select>
+              </div>
 
                   <button class="btn btn-primary" type="submit">Create Task</button>
                 </div>

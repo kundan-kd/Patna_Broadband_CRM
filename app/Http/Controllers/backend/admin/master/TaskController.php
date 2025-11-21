@@ -21,17 +21,19 @@ class TaskController extends Controller
         return view('backend.admin.modules.master.task2',compact('custom_field'));
     }
     public function add(Request $request){
-        //   dd($request->all());
+        //    dd($request->all());
         $validator = Validator::make($request->all(),[
             'task_type' => 'required',
             'task_priority' => 'required',
             'task_badge' => 'required',
             'task_label' => 'required',
+            'assign_to' =>'required',
         ]);
         if($validator->fails()){
             return response()->json(['error_validation'=>$validator->errors()->all(),],422);
         }
         $task = new Task();
+        $task->assign_to = $request->assign_to;
         $task->task_type = $request->task_type;
         $task->priority = $request->task_priority;
         $task->badge = $request->task_badge;

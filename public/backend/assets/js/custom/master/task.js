@@ -23,24 +23,19 @@
 
 $('#taskForm').on('submit', function (e) {
     e.preventDefault();
-
     let isValid = true; // validation flag
-
-    // Primary fields
     let task_type = $('#task_primary_type').val();
     let task_priority = $('#task_primary_priority').val();
      let task_badge = $('#task_primary_badge').val();
     let task_label = $('#task_primary_label').val();
-    let assign_to = $('#userList').data('assign_to');
-    if (assign_to) {
-    $('.assigneeBtn')
-        .css('border', '1px solid red')
-        .css('border-radius', '4px');
-}
-
+    let assign_to = $('#assignee').val();
+    // console.log(assign_to);
+    // if (!assign_to) {
+    //     $('.assigneeBtn').css('border', '1px solid red');
+    // }
 
     // Validate primary fields
-    if (task_type === '' || task_priority === '' || task_label === '') {
+    if (task_type === '' || task_priority === '' || task_label === '' || assign_to ==='') {
         isValid = false;
     }
 
@@ -104,6 +99,7 @@ $('[id^=custom_field_]').each(function () {
         task_priority: task_priority,
         task_badge: task_badge,
         task_label: task_label,
+        assign_to:assign_to,
         custom_fields: customFields,
     };
 

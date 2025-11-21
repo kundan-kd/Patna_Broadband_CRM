@@ -12,4 +12,7 @@ class Task extends Model
     public function customFields(){
         return $this->hasMany(TaskCustomField::class);
     }
+    public function userData(){
+        return $this->belongsTo(User::class,'assign_to');
+    }
 }
